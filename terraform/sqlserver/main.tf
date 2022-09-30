@@ -10,13 +10,13 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {
-    resource_group {
-      prevent_deletion_if_contains_resources = false
-    }
-  }
-}
+# provider "azurerm" {
+#   features {
+#     resource_group {
+#       prevent_deletion_if_contains_resources = false
+#     }
+#   }
+# }
 
 ### Locals ###
 
@@ -26,35 +26,35 @@ locals {
 
 ### Group ###
 
-resource "azurerm_resource_group" "default" {
-  name     = "rg-${local.project}"
+data "azurerm_resource_group" "default" {
+  name     = var.group
   location = var.location
 }
 
 ### Service Bus ###
 
-resource "azurerm_servicebus_namespace" "default" {
-  name                = "bus-${local.project}"
-  location            = azurerm_resource_group.default.location
-  resource_group_name = azurerm_resource_group.default.name
+# resource "azurerm_servicebus_namespace" "default" {
+#   name                = "bus-${local.project}"
+#   location            = data.azurerm_resource_group.default.location
+#   resource_group_name = data.azurerm_resource_group.default.name
 
-  # Standard is required for Dapr to use topics
-  sku = "Standard"
-}
+#   # Standard is required for Dapr to use topics
+#   sku = "Standard"
+# }
 
-resource "azurerm_servicebus_topic" "default" {
-  name                = "orders"
-  namespace_id        = azurerm_servicebus_namespace.default.id
-  enable_partitioning = true
-}
+# resource "azurerm_servicebus_topic" "default" {
+#   name                = "orders"
+#   namespace_id        = azurerm_servicebus_namespace.default.id
+#   enable_partitioning = true
+# }
 
 
 ### SQL Server ###
 
 resource "azurerm_mssql_server" "default" {
   name                         = "sql-${local.project}"
-  resource_group_name          = azurerm_resource_group.default.name
-  location                     = azurerm_resource_group.default.location
+  location                     = data.azurerm_resource_group.default.location
+  resource_group_name          = data.azurerm_resource_group.default.name
   version                      = "12.0"
   administrator_login          = "dbadmin"
   administrator_login_password = "P4ssw0rd#777"

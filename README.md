@@ -1,5 +1,8 @@
 # azure-events-autoscaling
 
+```sh
+az group create -n "rg-eventprocessor" -l "eastus"
+```
 
 ```hcl
 # Resources
