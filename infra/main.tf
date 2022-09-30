@@ -43,10 +43,10 @@ resource "azurerm_mssql_server" "default" {
 resource "azurerm_mssql_database" "default" {
   name                        = "sqldb-${local.project}"
   server_id                   = azurerm_mssql_server.default.id
-  max_size_gb                 = 1
-  sku_name                    = "GP_S_Gen5_1"
-  auto_pause_delay_in_minutes = 60
-  min_capacity                = 0.5
+  max_size_gb                 = var.sqlserver_max_size_gb
+  sku_name                    = var.sqlserver_sku_name
+  auto_pause_delay_in_minutes = var.sqlserver_auto_pause_delay_in_minutes
+  min_capacity                = var.sqlserver_min_capacity
   zone_redundant              = false
 }
 
