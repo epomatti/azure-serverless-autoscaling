@@ -4,6 +4,9 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.24.0"
     }
+    backend "local" {
+      path = ".workspace/terraform.tfstate"
+    }
   }
 }
 
@@ -27,6 +30,24 @@ resource "azurerm_resource_group" "default" {
   name     = "rg-${local.project}"
   location = var.location
 }
+
+### Service Bus ###
+
+resource "azurerm_servicebus_namespace" "default" {
+  name                = "bus-${local.project}"
+  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.default.name
+
+  # Standard is required for Dapr to use topics
+  sku = "Standard"
+}
+
+resource "azurerm_servicebus_topic" "default" {
+  name                = "orders"
+  namespace_id        = azurerm_servicebus_namespace.default.id
+  enable_partitioning = true
+}
+
 
 ### SQL Server ###
 
