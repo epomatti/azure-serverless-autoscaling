@@ -36,20 +36,18 @@ resource "azurerm_mssql_server" "default" {
   location                     = azurerm_resource_group.default.location
   version                      = "12.0"
   administrator_login          = "dbadmin"
-  administrator_login_password = "p4ssw0rd"
+  administrator_login_password = "P4ssw0rd#777"
   minimum_tls_version          = "1.2"
 }
 
 resource "azurerm_mssql_database" "default" {
-  name      = "sqldb-${local.project}"
-  server_id = azurerm_mssql_server.default.id
-  # collation      = "SQL_Latin1_General_CP1_CI_AS"
-  # license_type = "LicenseIncluded"
-  max_size_gb = 4
-  # read_scale     = true
-  sku_name                    = "S0"
+  name                        = "sqldb-${local.project}"
+  server_id                   = azurerm_mssql_server.default.id
+  max_size_gb                 = 1
+  sku_name                    = "GP_S_Gen5_1"
   auto_pause_delay_in_minutes = 60
-  # zone_redundant = true
+  min_capacity                = 1
+  zone_redundant              = false
 }
 
 
