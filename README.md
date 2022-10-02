@@ -45,7 +45,7 @@ docker push epomatti/azure-sqlserverless-books
 
 ```sh
 docker run -it --rm \
-    -e SQLSERVER_JDBC_URL="jdbc:sqlserver://sql-autoscale-8474.database.windows.net:1433;database=sqldb-autoscale-8474;user=dbadmin@sql-autoscale-8474;password=P4ssw0rd#777;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;" \
+    -e SQLSERVER_JDBC_URL="jdbc:sqlserver://sql-autoscale-2996.database.windows.net:1433;database=sqldb-autoscale-2996;user=dbadmin@sql-autoscale-2996;password=P4ssw0rd#777;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;" \
     -p 8080:8080 \
     -t epomatti/azure-sqlserverless-books
 ```
