@@ -16,6 +16,12 @@ sqlserver_zone_redundant              = false
 
 After the database is created, add you IP to the firewall to enable external access.
 
+Add the database connection string to the session:
+
+```sh
+export SQLSERVER_JDBC_URL="<copy from terraform output>"
+```
+
 Start the application:
 
 ```sh
@@ -25,4 +31,12 @@ mvn spring-boot:run
 
 ```sh
 k6 run --vus 10 --duration 30s http_post.js
+```
+
+```sh
+cd app
+
+docker build . -t epomatti/azure-sqlserverless-books
+docker login --username=<username>
+docker push epomatti/azure-sqlserverless-books
 ```
