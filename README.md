@@ -21,3 +21,8 @@ Start the application:
 ```sh
 mvn spring-boot:run
 ```
+
+
+```sh
+k6 run --vus 10 --duration 30s http_post.js
+```
