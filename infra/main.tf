@@ -44,6 +44,16 @@ resource "azurerm_resource_group" "default" {
   location = var.location
 }
 
+### Network ###
+
+module "network" {
+  source              = "./modules/network"
+  project             = local.affix
+  location            = var.location
+  resource_group_name = azurerm_resource_group.default.name
+}
+
+
 ### SQL Server ###
 
 resource "azurerm_mssql_server" "default" {
@@ -74,15 +84,11 @@ resource "azurerm_mssql_database" "default" {
   zone_redundant              = false
 }
 
-### Network ###
-
-module "network" {
-  source              = "./modules/network"
-  project             = local.affix
-  location            = var.location
-  resource_group_name = azurerm_resource_group.default.name
+resource "azurerm_mssql_virtual_network_rule" "database" {
+  name      = "sql-vnet-rule"
+  server_id = azurerm_mssql_server.default.id
+  subnet_id = module.network.subnet_all_id
 }
-
 
 ### Azure Monitor ###
 
@@ -129,8 +135,8 @@ resource "azapi_resource" "managed_environment" {
       }
       vnetConfiguration = {
         internal               = false
-        runtimeSubnetId        = module.network.runtime_subnet_id
-        infrastructureSubnetId = module.network.infrastructure_subnet_id
+        runtimeSubnetId        = module.network.subnet_all_id
+        infrastructureSubnetId = module.network.subnet_all_id
       }
     }
   })
@@ -162,7 +168,7 @@ module "containerapp_books" {
   # Container
   container_image = "epomatti/azure-sqlserverless-books"
   container_envs = [
-    { name = "DAPR_APP_PORT", value = "8080" },
+    # { name = "DAPR_APP_PORT", value = "8080" },
     # { name = "DAPR_HTTP_PORT", value = "3500" },
     { name = "SQLSERVER_JDBC_URL", value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;" }
   ]
