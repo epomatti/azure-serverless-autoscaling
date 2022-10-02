@@ -40,17 +40,18 @@ resource "azurerm_resource_group" "default" {
 ### SQL Server ###
 
 resource "azurerm_mssql_server" "default" {
-  name                         = "sql-${local.project}"
-  location                     = azurerm_resource_group.default.location
-  resource_group_name          = azurerm_resource_group.default.name
-  version                      = var.sqlserver_version
-  administrator_login          = "dbadmin"
-  administrator_login_password = "P4ssw0rd#777"
-  minimum_tls_version          = "1.2"
+  name                          = "sql-${local.affix}"
+  location                      = azurerm_resource_group.default.location
+  resource_group_name           = azurerm_resource_group.default.name
+  version                       = var.sqlserver_version
+  administrator_login           = "dbadmin"
+  administrator_login_password  = "P4ssw0rd#777"
+  minimum_tls_version           = "1.2"
+  public_network_access_enabled = true
 }
 
 resource "azurerm_mssql_database" "default" {
-  name                        = "sqldb-${local.project}"
+  name                        = "sqldb-${local.affix}"
   server_id                   = azurerm_mssql_server.default.id
   max_size_gb                 = var.sqlserver_max_size_gb
   sku_name                    = var.sqlserver_sku_name

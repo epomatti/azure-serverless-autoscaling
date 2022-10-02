@@ -1,8 +1,5 @@
 # azure-events-autoscaling
 
-```sh
-az group create -n "rg-eventprocessor" -l "eastus"
-```
 
 ```hcl
 # Resources
@@ -17,3 +14,6 @@ sqlserver_min_capacity                = 0.5
 sqlserver_zone_redundant              = false
 ```
 
+```sh
+mvn spring-boot:run
+```
