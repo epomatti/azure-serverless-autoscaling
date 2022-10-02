@@ -149,21 +149,21 @@ module "containerapp_books" {
 
   # Ingress
   external            = true
-  ingress_target_port = 3000
+  ingress_target_port = 8080
 
   # Resources
   cpu    = var.app_cpu
   memory = var.app_memory
 
   # Dapr
-  dapr_appId   = "books"
-  dapr_appPort = 3000
+  # dapr_appId   = "books"
+  # dapr_appPort = 8080
 
   # Container
   container_image = "epomatti/azure-sqlserverless-books"
   container_envs = [
-    { name = "DAPR_APP_PORT", value = "3000" },
-    { name = "DAPR_HTTP_PORT", value = "3500" },
+    { name = "DAPR_APP_PORT", value = "8080" },
+    # { name = "DAPR_HTTP_PORT", value = "3500" },
     { name = "SQLSERVER_JDBC_URL", value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;" }
   ]
 }

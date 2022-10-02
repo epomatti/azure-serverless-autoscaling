@@ -27,12 +27,12 @@ resource "azapi_resource" "container_app" {
           external   = var.external
           targetPort = var.ingress_target_port
         }
-        dapr = {
-          enabled     = true
-          appId       = var.dapr_appId
-          appPort     = var.dapr_appPort
-          appProtocol = "http"
-        }
+        # dapr = {
+        #   enabled     = true
+        #   appId       = var.dapr_appId
+        #   appPort     = var.dapr_appPort
+        #   appProtocol = "http"
+        # }
       }
       template = {
         containers = [

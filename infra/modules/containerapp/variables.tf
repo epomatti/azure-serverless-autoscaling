@@ -29,13 +29,13 @@ variable "ingress_target_port" {
 
 ### Dapr ###
 
-variable "dapr_appId" {
-  type = string
-}
+# variable "dapr_appId" {
+#   type = string
+# }
 
-variable "dapr_appPort" {
-  type = number
-}
+# variable "dapr_appPort" {
+#   type = number
+# }
 
 ### Resources ###
 variable "cpu" {
