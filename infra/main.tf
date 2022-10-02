@@ -50,6 +50,13 @@ resource "azurerm_mssql_server" "default" {
   public_network_access_enabled = true
 }
 
+resource "azurerm_mssql_firewall_rule" "allow_internal" {
+  name             = "FirewallRuleAllowAzureInternalAll"
+  server_id        = azurerm_mssql_server.default.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}
+
 resource "azurerm_mssql_database" "default" {
   name                        = "sqldb-${local.affix}"
   server_id                   = azurerm_mssql_server.default.id

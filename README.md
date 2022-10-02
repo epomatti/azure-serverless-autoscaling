@@ -14,6 +14,10 @@ sqlserver_min_capacity                = 0.5
 sqlserver_zone_redundant              = false
 ```
 
+After the database is created, add you IP to the firewall to enable external access.
+
+Start the application:
+
 ```sh
 mvn spring-boot:run
 ```
