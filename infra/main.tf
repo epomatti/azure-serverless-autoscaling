@@ -53,7 +53,6 @@ module "network" {
   resource_group_name = azurerm_resource_group.default.name
 }
 
-
 ### SQL Server ###
 
 resource "azurerm_mssql_server" "default" {
