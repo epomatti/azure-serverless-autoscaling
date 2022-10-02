@@ -5,14 +5,14 @@ import org.springframework.context.annotation.Configuration;
 
 import lombok.Data;
 
-@Configuration
+// @Configuration
 @Data
 public class Config {
 
-  @Value("${azure.eventhub.connectionString}")
+  // @Value("${azure.eventhub.connectionString}")
   private String connectionString;
 
-  @Value("${azure.eventhub.name}")
+  // @Value("${azure.eventhub.name}")
   private String eventHubName;
 
 }
