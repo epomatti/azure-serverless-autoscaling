@@ -13,4 +13,7 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /opt/app
 EXPOSE 8080
 COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
-ENTRYPOINT ["java", "-jar", "/opt/app/*.jar", "-Ddebug=true" ]
+ENTRYPOINT ["java", "-jar", "/opt/app/*.jar" ]
+
+# HEALTHCHECK --interval=30s \
+#   CMD curl http://localhost:8080/actuator/health || exit 1

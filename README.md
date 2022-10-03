@@ -25,7 +25,9 @@ export SQLSERVER_JDBC_URL="<copy from terraform output>"
 Start the application:
 
 ```sh
-mvn spring-boot:run
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=P4ssw0rd#777" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 

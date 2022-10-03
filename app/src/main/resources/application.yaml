@@ -1,5 +1,5 @@
 spring.sql.init.mode: always
 spring.datasource.url: ${SQLSERVER_JDBC_URL}
 spring.jpa.hibernate.ddl-auto: update
-logging.level.com.zaxxer.hikari.HikariConfig: DEBUG 
-logging.level.com.zaxxer.hikari: TRACE
+logging.level.com.zaxxer.hikari.HikariConfig: ${HIKARI_CONFIG_LOGGING_LEVEL} 
+logging.level.com.zaxxer.hikari: ${HIKARI_LOGGING_LEVEL}
