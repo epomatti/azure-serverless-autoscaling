@@ -30,11 +30,18 @@ resource "azurerm_virtual_network" "default" {
   address_space       = ["10.0.0.0/8"]
 }
 
-resource "azurerm_subnet" "all" {
-  name                 = "subnet-all"
+resource "azurerm_subnet" "infrastructure" {
+  name                 = "subnet-infrastructure"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = ["10.200.0.0/16"]
+  address_prefixes     = ["10.10.0.0/16"]
+}
+
+resource "azurerm_subnet" "runtime" {
+  name                 = "subnet-runtime"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.99.0.0/16"]
 
   # Enable for SQL
   service_endpoints = ["Microsoft.Sql"]
@@ -42,6 +49,10 @@ resource "azurerm_subnet" "all" {
 
 ### Output ###
 
-output "subnet_all_id" {
-  value = azurerm_subnet.all.id
+output "infrastructure_subnet_id" {
+  value = azurerm_subnet.infrastructure.id
+}
+
+output "runtime_subnet_id" {
+  value = azurerm_subnet.runtime.id
 }

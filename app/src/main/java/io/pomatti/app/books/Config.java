@@ -3,10 +3,10 @@ package io.pomatti.app.books;
 // import org.springframework.beans.factory.annotation.Value;
 // import org.springframework.context.annotation.Configuration;
 
-import lombok.Data;
+// import lombok.Data;
 
 // @Configuration
-@Data
+// @Data
 public class Config {
 
   // @Value("${azure.eventhub.connectionString}")
