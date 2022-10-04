@@ -1,17 +1,28 @@
 import http from 'k6/http';
 
+const baseurl = __ENV.HOST_URL;
+
+const params = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
+
+const createAuthor = () => {
+  const url = `${baseurl}/api/authors/`;
+  const response = http.post(url, {}, params);
+  const body = JSON.parse(response.body);
+  return body.id;
+}
+
+const createBook = (authorId) => {
+  const url = `${baseurl}/api/books/`;
+  const response = http.post(url, { authorId: authorId }, params);
+  const body = JSON.parse(response.body);
+  return body.id;
+}
+
 export default function () {
-  const url = 'http://localhost:8080/api/books/';
-  const payload = JSON.stringify({
-    email: 'aaa',
-    password: 'bbb',
-  });
-
-  const params = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  http.post(url, payload, params);
+  const authorId = createAuthor();
+  createBook(authorId);
 }

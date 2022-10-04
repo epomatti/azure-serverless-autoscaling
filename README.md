@@ -32,7 +32,11 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 
 ```sh
-k6 run --vus 10 --duration 30s http_post.js
+k6 run \
+    -e HOST_URL="http://localhost:8080" \
+    --vus 1 \
+    --duration 30s \
+    http_post.js
 ```
 
 ```sh
