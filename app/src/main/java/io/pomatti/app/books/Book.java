@@ -1,6 +1,6 @@
 package io.pomatti.app.books;
 
-// import lombok.Data;
+import lombok.Data;
 
 // import javax.persistence.Entity;
 // import javax.persistence.GeneratedValue;
@@ -8,7 +8,7 @@ package io.pomatti.app.books;
 // import javax.persistence.Id;
 
 // @Entity
-// @Data
+@Data
 public class Book {
 
   // @Id

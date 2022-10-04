@@ -143,42 +143,42 @@ resource "azapi_resource" "managed_environment" {
 
 ### Application Apps - Services ###
 
-# module "containerapp_books" {
-#   source = "./modules/containerapp"
+module "containerapp_books" {
+  source = "./modules/containerapp"
 
-#   # Container App
-#   name        = "app-books"
-#   location    = var.location
-#   group_id    = azurerm_resource_group.default.id
-#   environment = azapi_resource.managed_environment.id
+  # Container App
+  name        = "app-books"
+  location    = var.location
+  group_id    = azurerm_resource_group.default.id
+  environment = azapi_resource.managed_environment.id
 
-#   # Ingress
-#   external            = true
-#   ingress_target_port = 8080
+  # Ingress
+  external            = true
+  ingress_target_port = 8080
 
-#   # Resources
-#   cpu    = var.app_cpu
-#   memory = var.app_memory
+  # Resources
+  cpu    = var.app_cpu
+  memory = var.app_memory
 
-#   # Dapr
-#   # dapr_appId   = "books"
-#   # dapr_appPort = 8080
+  # Dapr
+  # dapr_appId   = "books"
+  # dapr_appPort = 8080
 
-#   # Container
-#   container_image = "epomatti/azure-sqlserverless-books"
-#   container_envs = [
-#     # { name = "DAPR_APP_PORT", value = "8080" },
-#     # { name = "DAPR_HTTP_PORT", value = "3500" },
-#     { name = "SQLSERVER_JDBC_URL", value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;" }
-#   ]
-# }
+  # Container
+  container_image = "epomatti/azure-sqlserverless-books"
+  container_envs = [
+    # { name = "DAPR_APP_PORT", value = "8080" },
+    # { name = "DAPR_HTTP_PORT", value = "3500" },
+    { name = "SQLSERVER_JDBC_URL", value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;" }
+  ]
+}
 
 ### Outputs ###
 
-# output "sqlserver_jdbc_url" {
-#   value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-# }
+output "sqlserver_jdbc_url" {
+  value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+}
 
-# output "order_url" {
-#   value = "https://${module.containerapp_books.fqdn}"
-# }
+output "order_url" {
+  value = "https://${module.containerapp_books.fqdn}"
+}
