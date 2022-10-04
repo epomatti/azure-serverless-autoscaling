@@ -1,4 +1,4 @@
-package io.pomatti.app.bookstore.main;
+package io.pomatti.app.bookstore.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
