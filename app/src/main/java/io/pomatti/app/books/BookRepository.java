@@ -1,9 +1,9 @@
 package io.pomatti.app.books;
 
-// import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-// @Repository
-// public interface BookRepository extends CrudRepository<Book, Long> {
-//   // Order findById(long id);
-// }
+@Repository
+public interface BookRepository extends CrudRepository<Book, Long> {
+  // Order findById(long id);
+}

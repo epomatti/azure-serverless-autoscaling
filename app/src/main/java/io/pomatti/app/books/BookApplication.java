@@ -3,7 +3,6 @@ package io.pomatti.app.books;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,21 +19,15 @@ public class BookApplication {
 		SpringApplication.run(BookApplication.class, args);
 	}
 
-	// @Autowired
-	// BookRepository repository;
-
-	// @PostMapping("/")
-	// public Book post(@RequestBody Book order) {
-	// var book = new Book();
-	// book.setName("Eternal Sunshine");
-	// book.setAuthor("Anonymous");
-	// return repository.save(book);
-	// }
+	@Autowired
+	BookRepository repository;
 
 	@PostMapping("/")
-	public Book post() {
+	public Book post(@RequestBody Book order) {
 		var book = new Book();
-		return book;
+		book.setName("Eternal Sunshine");
+		book.setAuthor("Anonymous");
+		return repository.save(book);
 	}
 
 	@GetMapping("/")
