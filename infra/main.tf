@@ -179,6 +179,6 @@ output "sqlserver_jdbc_url" {
   value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
 }
 
-output "order_url" {
+output "app_url" {
   value = "https://${module.containerapp_books.fqdn}"
 }
