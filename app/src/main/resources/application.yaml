@@ -6,3 +6,6 @@ spring.jpa.hibernate.ddl-auto: update
 # logging.level.root: INFO
 logging.level.com.zaxxer.hikari.HikariConfig: ${HIKARI_CONFIG_LOGGING_LEVEL} 
 logging.level.com.zaxxer.hikari: ${HIKARI_LOGGING_LEVEL}
+
+# logging.level.org.springframework: DEBUG
+# logging.level.root: DEBUG
