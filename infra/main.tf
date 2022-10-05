@@ -134,7 +134,9 @@ module "containerapp_books" {
   # Container
   container_image = "epomatti/azure-sqlserverless-books"
   container_envs = [
-    { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_url }
+    { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_url },
+    { name = "HIKARI_CONFIG_LOGGING_LEVEL", value = "INFO" },
+    { name = "HIKARI_LOGGING_LEVEL", value = "INFO" }
   ]
 }
 
