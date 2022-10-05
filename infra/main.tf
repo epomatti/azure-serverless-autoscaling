@@ -65,7 +65,8 @@ module "mssql" {
   sqlserver_auto_pause_delay_in_minutes = var.sqlserver_auto_pause_delay_in_minutes
   sqlserver_min_capacity                = var.sqlserver_min_capacity
   sqlserver_zone_redundant              = var.sqlserver_zone_redundant
-  sqlserver_allow_subnet_id             = module.network.runtime_subnet_id
+  sqlserver_infrastructure_subnet_id    = module.network.infrastructure_subnet_id
+  sqlserver_runtime_subnet_id           = module.network.runtime_subnet_id
 }
 
 ### Azure Monitor ###

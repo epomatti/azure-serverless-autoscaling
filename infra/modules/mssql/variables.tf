@@ -34,6 +34,10 @@ variable "sqlserver_zone_redundant" {
   type = bool
 }
 
-variable "sqlserver_allow_subnet_id" {
+variable "sqlserver_infrastructure_subnet_id" {
+  type = string
+}
+
+variable "sqlserver_runtime_subnet_id" {
   type = string
 }
