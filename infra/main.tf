@@ -65,25 +65,51 @@ module "mssql" {
   sqlserver_auto_pause_delay_in_minutes = var.sqlserver_auto_pause_delay_in_minutes
   sqlserver_min_capacity                = var.sqlserver_min_capacity
   sqlserver_zone_redundant              = var.sqlserver_zone_redundant
-  sqlserver_allow_subnet_id             = var.sqlserver_allow_subnet_id
+  sqlserver_allow_subnet_id             = module.network.runtime_subnet_id
 }
 
 ### Azure Monitor ###
 
-module "monitor" {
-  source   = "./modules/monitor"
-  name     = local.project_affix
-  location = var.location
-  group    = azurerm_resource_group.default.name
+resource "azurerm_log_analytics_workspace" "default" {
+  name                = "log-${local.project_affix}"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.default.name
+  sku                 = "PerGB2018"
+}
+
+resource "azurerm_application_insights" "default" {
+  name                = "appi-${local.project_affix}"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.default.name
+  application_type    = "web"
+  workspace_id        = azurerm_log_analytics_workspace.default.id
 }
 
 ### Container Apps - Environment ###
 
-module "monitor" {
-  source   = "./modules/managedenvironment"
-  name     = local.project_affix
-  location = var.location
-  group    = azurerm_resource_group.default.name
+resource "azapi_resource" "managed_environment" {
+  name      = "managedenvironment-${local.project_affix}"
+  location  = var.location
+  parent_id = azurerm_resource_group.default.id
+  type      = "Microsoft.App/managedEnvironments@2022-03-01"
+
+  body = jsonencode({
+    properties = {
+      daprAIConnectionString = azurerm_application_insights.default.connection_string
+      appLogsConfiguration = {
+        destination = "log-analytics"
+        logAnalyticsConfiguration = {
+          customerId = azurerm_log_analytics_workspace.default.workspace_id
+          sharedKey  = azurerm_log_analytics_workspace.default.primary_shared_key
+        }
+      }
+      vnetConfiguration = {
+        internal               = false
+        infrastructureSubnetId = module.network.infrastructure_subnet_id
+        runtimeSubnetId        = module.network.runtime_subnet_id
+      }
+    }
+  })
 }
 
 ### Application Apps - Services ###
@@ -105,23 +131,17 @@ module "containerapp_books" {
   cpu    = var.app_cpu
   memory = var.app_memory
 
-  # Dapr
-  # dapr_appId   = "books"
-  # dapr_appPort = 8080
-
   # Container
   container_image = "epomatti/azure-sqlserverless-books"
   container_envs = [
-    # { name = "DAPR_APP_PORT", value = "8080" },
-    # { name = "DAPR_HTTP_PORT", value = "3500" },
-    { name = "SQLSERVER_JDBC_URL", value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;" }
+    { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_url }
   ]
 }
 
 ### Outputs ###
 
 output "sqlserver_jdbc_url" {
-  value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+  value = module.mssql.jdbc_url
 }
 
 output "app_url" {

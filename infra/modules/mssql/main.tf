@@ -4,7 +4,7 @@ locals {
 }
 
 resource "azurerm_mssql_server" "default" {
-  name                          = "sql-${local.affix}"
+  name                          = "sql-${var.name}"
   location                      = var.location
   resource_group_name           = var.group
   version                       = var.sqlserver_version
@@ -22,7 +22,7 @@ resource "azurerm_mssql_firewall_rule" "allow_internal" {
 }
 
 resource "azurerm_mssql_database" "default" {
-  name                        = "sqldb-${local.affix}"
+  name                        = "sqldb-${var.name}"
   server_id                   = azurerm_mssql_server.default.id
   max_size_gb                 = var.sqlserver_max_size_gb
   sku_name                    = var.sqlserver_sku_name
@@ -34,7 +34,7 @@ resource "azurerm_mssql_database" "default" {
 resource "azurerm_mssql_virtual_network_rule" "allow" {
   name      = "sql-vnet-rule"
   server_id = azurerm_mssql_server.default.id
-  subnet_id = module.network.runtime_subnet_id
+  subnet_id = var.sqlserver_allow_subnet_id
 }
 
 ### Outputs ###
