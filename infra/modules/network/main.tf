@@ -45,9 +45,6 @@ resource "azurerm_subnet" "runtime" {
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["10.99.0.0/16"]
-
-  # Enable for SQL
-  service_endpoints = ["Microsoft.Sql"]
 }
 
 ### Output ###
