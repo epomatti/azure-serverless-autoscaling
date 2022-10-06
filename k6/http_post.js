@@ -17,7 +17,8 @@ const createAuthor = () => {
 
 const createBook = (authorId) => {
   const url = `${baseurl}/api/books/`;
-  const response = http.post(url, { authorId: authorId }, params);
+  const data = JSON.stringify({ authorId: authorId });
+  const response = http.post(url, data, params);
   const body = JSON.parse(response.body);
   return body.id;
 }
