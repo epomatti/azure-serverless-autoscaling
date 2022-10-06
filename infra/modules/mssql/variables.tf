@@ -42,7 +42,3 @@ variable "virtual_network_id" {
 variable "sqlserver_infrastructure_subnet_id" {
   type = string
 }
-
-variable "sqlserver_runtime_subnet_id" {
-  type = string
-}

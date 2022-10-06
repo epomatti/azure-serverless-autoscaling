@@ -33,18 +33,6 @@ resource "azurerm_mssql_database" "default" {
   zone_redundant              = false
 }
 
-resource "azurerm_mssql_virtual_network_rule" "allow_aca_infrastructure" {
-  name      = "sql-vnet-rule-aca-infrastructure"
-  server_id = azurerm_mssql_server.default.id
-  subnet_id = var.sqlserver_infrastructure_subnet_id
-}
-
-resource "azurerm_mssql_virtual_network_rule" "allow_aca_runtime" {
-  name      = "sql-vnet-rule-aca-runtime"
-  server_id = azurerm_mssql_server.default.id
-  subnet_id = var.sqlserver_runtime_subnet_id
-}
-
 ### Private DNS Zone ###
 
 resource "azurerm_private_dns_zone" "database" {
@@ -81,7 +69,6 @@ resource "azurerm_private_endpoint" "database" {
     is_manual_connection           = false
     subresource_names              = ["sqlServer"]
   }
-
 }
 
 ### Outputs ###

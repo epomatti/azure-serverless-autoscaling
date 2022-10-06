@@ -37,10 +37,10 @@ variable "sqlserver_zone_redundant" {
 ### App Resources ###
 variable "app_cpu" {
   type    = number
-  default = 1.0
+  default = 0.5
 }
 
 variable "app_memory" {
   type    = string
-  default = "2.0Gi"
+  default = "1.0Gi"
 }

@@ -67,7 +67,6 @@ module "mssql" {
   sqlserver_zone_redundant              = var.sqlserver_zone_redundant
   virtual_network_id                    = module.network.virtual_network_id
   sqlserver_infrastructure_subnet_id    = module.network.infrastructure_subnet_id
-  sqlserver_runtime_subnet_id           = module.network.runtime_subnet_id
 }
 
 ### Azure Monitor ###
