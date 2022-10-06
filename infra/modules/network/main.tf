@@ -52,6 +52,10 @@ resource "azurerm_subnet" "runtime" {
 
 ### Output ###
 
+output "virtual_network_id" {
+  value = azurerm_virtual_network.default.id
+}
+
 output "infrastructure_subnet_id" {
   value = azurerm_subnet.infrastructure.id
 }

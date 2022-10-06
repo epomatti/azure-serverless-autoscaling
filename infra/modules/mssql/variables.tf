@@ -34,6 +34,11 @@ variable "sqlserver_zone_redundant" {
   type = bool
 }
 
+variable "virtual_network_id" {
+  type        = string
+  description = "Required to be referenced by the Private Endpoint"
+}
+
 variable "sqlserver_infrastructure_subnet_id" {
   type = string
 }

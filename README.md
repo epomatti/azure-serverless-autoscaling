@@ -62,3 +62,5 @@ https://www.docker.com/blog/9-tips-for-containerizing-your-spring-boot-code/
 https://techcommunity.microsoft.com/t5/apps-on-azure-blog/azure-container-apps-virtual-network-integration/ba-p/3096932
 
 https://learn.microsoft.com/en-us/rest/api/containerapps/managed-environments/create-or-update?tabs=HTTP#vnetconfiguration
+
+https://sameeraman.wordpress.com/2019/10/30/azure-private-link-vs-azure-service-endpoints/

@@ -65,6 +65,7 @@ module "mssql" {
   sqlserver_auto_pause_delay_in_minutes = var.sqlserver_auto_pause_delay_in_minutes
   sqlserver_min_capacity                = var.sqlserver_min_capacity
   sqlserver_zone_redundant              = var.sqlserver_zone_redundant
+  virtual_network_id                    = module.network.virtual_network_id
   sqlserver_infrastructure_subnet_id    = module.network.infrastructure_subnet_id
   sqlserver_runtime_subnet_id           = module.network.runtime_subnet_id
 }
@@ -135,7 +136,7 @@ module "containerapp_books" {
   # Container
   container_image = "epomatti/azure-sqlserverless-books"
   container_envs = [
-    { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_url },
+    { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_private_url },
     { name = "HIKARI_CONFIG_LOGGING_LEVEL", value = "INFO" },
     { name = "HIKARI_LOGGING_LEVEL", value = "INFO" }
   ]
@@ -143,8 +144,8 @@ module "containerapp_books" {
 
 ### Outputs ###
 
-output "sqlserver_jdbc_url" {
-  value = module.mssql.jdbc_url
+output "sqlserver_jdbc_public_url" {
+  value = module.mssql.jdbc_public_url
 }
 
 output "app_url" {
