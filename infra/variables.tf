@@ -11,12 +11,12 @@ variable "sqlserver_version" {
 
 variable "sqlserver_max_size_gb" {
   type    = number
-  default = 1
+  default = 10
 }
 
 variable "sqlserver_sku_name" {
   type    = string
-  default = "GP_S_Gen5_1"
+  default = "GP_S_Gen5_2"
 }
 
 variable "sqlserver_auto_pause_delay_in_minutes" {

@@ -64,3 +64,6 @@ https://techcommunity.microsoft.com/t5/apps-on-azure-blog/azure-container-apps-v
 https://learn.microsoft.com/en-us/rest/api/containerapps/managed-environments/create-or-update?tabs=HTTP#vnetconfiguration
 
 https://sameeraman.wordpress.com/2019/10/30/azure-private-link-vs-azure-service-endpoints/
+
+
+https://azure.microsoft.com/pt-br/blog/optimize-price-performance-with-compute-auto-scaling-in-azure-sql-database-serverless/
