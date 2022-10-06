@@ -129,8 +129,12 @@ module "containerapp_books" {
   ingress_target_port = 8080
 
   # Resources
-  cpu    = var.app_cpu
-  memory = var.app_memory
+  cpu                            = var.app_cpu
+  memory                         = var.app_memory
+  min_replicas                   = var.app_min_replicas
+  max_replicas                   = var.app_max_replicas
+  auto_scale_concurrent_requests = var.app_auto_scale_concurrent_requests
+  auto_scale_cpu                 = var.auto_scale_cpu
 
   # Container
   container_image = "epomatti/azure-sqlserverless-books"

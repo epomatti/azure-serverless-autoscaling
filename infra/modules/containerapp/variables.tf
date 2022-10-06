@@ -46,6 +46,22 @@ variable "memory" {
   type = string
 }
 
+variable "min_replicas" {
+  type = number
+}
+
+variable "max_replicas" {
+  type = number
+}
+
+variable "auto_scale_concurrent_requests" {
+  type = string
+}
+
+variable "auto_scale_cpu" {
+  type = string
+}
+
 ### Container ###
 
 variable "container_image" {

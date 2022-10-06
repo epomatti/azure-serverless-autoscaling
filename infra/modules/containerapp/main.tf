@@ -64,8 +64,29 @@ resource "azapi_resource" "container_app" {
           }
         ]
         scale = {
-          minReplicas = 1
-          maxReplicas = 2
+          minReplicas = var.min_replicas
+          maxReplicas = var.max_replicas
+          rules = [
+            # {
+            #   name = "httpscalingrule"
+            #   custom = {
+            #     type = "http"
+            #     metadata = {
+            #       concurrentRequests = var.auto_scale_concurrent_requests
+            #     }
+            #   }
+            # },
+            {
+              name = "cpuscalingrule"
+              custom = {
+                type = "cpu"
+                metadata = {
+                  type  = "Utilization"
+                  value = var.auto_scale_cpu
+                }
+              }
+            }
+          ]
         }
       }
     }

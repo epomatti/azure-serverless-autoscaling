@@ -44,3 +44,23 @@ variable "app_memory" {
   type    = string
   default = "1.0Gi"
 }
+
+variable "app_min_replicas" {
+  type    = number
+  default = 1
+}
+
+variable "app_max_replicas" {
+  type    = number
+  default = 20
+}
+
+variable "app_auto_scale_concurrent_requests" {
+  type    = string
+  default = "50"
+}
+
+variable "auto_scale_cpu" {
+  type    = string
+  default = "50"
+}
