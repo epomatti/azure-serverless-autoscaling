@@ -57,8 +57,8 @@ resource "azapi_resource" "container_app" {
                     }
                   ]
                 }
-                initialDelaySeconds = 30
-                periodSeconds       = 10
+                initialDelaySeconds = 60
+                periodSeconds       = 20
               }
             ]
           }

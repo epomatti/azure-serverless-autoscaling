@@ -17,4 +17,4 @@ WORKDIR /opt/app
 EXPOSE 8080
 COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
 COPY --from=builder /opt/appi /opt/appi
-ENTRYPOINT ["java", "-javaagent:/opt/appi/applicationinsights-agent-3.4.1.jar", "-jar", "/opt/app/*.jar" ]
+ENTRYPOINT ["java", "-javaagent:/opt/appi/appi-agent.jar", "-jar", "/opt/app/*.jar" ]
