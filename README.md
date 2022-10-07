@@ -61,6 +61,12 @@ docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=P4ssw0rd#777" -p 1433:1433 -
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
+Setting the 
+
+```sh
+export APPLICATIONINSIGHTS_CONNECTION_STRING="<...>"
+```
+
 ## Update Docker image
 
 ```sh
@@ -69,6 +75,18 @@ cd app
 docker build . -t epomatti/azure-sqlserverless-books
 docker login --username=epomatti
 docker push epomatti/azure-sqlserverless-books
+```
+
+Testing the image locally:
+
+```sh
+docker run -it --rm \
+    -e SQLSERVER_JDBC_URL="jdbc:sqlserver://<<<SERVER>>>.database.windows.net:1433;database=<<<DATABASE>>>;user=<<<USERNAME>>>;password=<<<PASSWORD>>>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;" \
+    -e APPLICATIONINSIGHTS_CONNECTION_STRING="InstrumentationKey=00000000000000000000000000;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/" \
+    -e HIKARI_CONFIG_LOGGING_LEVEL="INFO" \
+    -e HIKARI_LOGGING_LEVEL="INFO" \
+    -p 8080:8080 \
+    -t epomatti/azure-sqlserverless-books
 ```
 
 ## References

@@ -86,6 +86,14 @@ resource "azurerm_application_insights" "default" {
   workspace_id        = azurerm_log_analytics_workspace.default.id
 }
 
+resource "azurerm_application_insights" "bookapp" {
+  name                = "appi-${local.project_affix}-bookapp"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.default.name
+  application_type    = "web"
+  workspace_id        = azurerm_log_analytics_workspace.default.id
+}
+
 ### Container Apps - Environment ###
 
 resource "azapi_resource" "managed_environment" {
@@ -140,6 +148,7 @@ module "containerapp_books" {
   container_image = "epomatti/azure-sqlserverless-books"
   container_envs = [
     { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_private_url },
+    { name = "APPLICATIONINSIGHTS_CONNECTION_STRING", value = azurerm_application_insights.bookapp.connection_string },
     { name = "HIKARI_CONFIG_LOGGING_LEVEL", value = "INFO" },
     { name = "HIKARI_LOGGING_LEVEL", value = "INFO" }
   ]

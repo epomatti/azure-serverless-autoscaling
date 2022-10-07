@@ -3,9 +3,7 @@ spring.datasource.url: ${SQLSERVER_JDBC_URL}
 spring.jpa.hibernate.ddl-auto: update
 
 # Logging
-# logging.level.root: INFO
 logging.level.com.zaxxer.hikari.HikariConfig: ${HIKARI_CONFIG_LOGGING_LEVEL} 
 logging.level.com.zaxxer.hikari: ${HIKARI_LOGGING_LEVEL}
-
 # logging.level.org.springframework: DEBUG
 # logging.level.root: DEBUG
