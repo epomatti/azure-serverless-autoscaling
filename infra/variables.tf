@@ -17,7 +17,7 @@ variable "sqlserver_max_size_gb" {
 
 variable "sqlserver_sku_name" {
   type    = string
-  default = "GP_S_Gen5_2"
+  default = "GP_S_Gen5_4"
 }
 
 variable "sqlserver_auto_pause_delay_in_minutes" {
