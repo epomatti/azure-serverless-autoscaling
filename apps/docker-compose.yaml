@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  store:
+    build: store
+    ports:
+      - "8080:8080"
+    environment:
+      SQLSERVER_JDBC_URL: "jdbc:sqlserver://database:1433;trustServerCertificate=true;user=SA;password=P4ssw0rd#777;"
+      HIKARI_CONFIG_LOGGING_LEVEL: INFO
+      HIKARI_LOGGING_LEVEL: INFO
+    depends_on:
+      database:
+        condition: service_started
+
+  database:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "P4ssw0rd#777"
+      ACCEPT_EULA: "Y"
