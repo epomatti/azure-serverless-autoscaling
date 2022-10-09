@@ -87,14 +87,6 @@ resource "azurerm_log_analytics_workspace" "default" {
   sku                 = "PerGB2018"
 }
 
-resource "azurerm_application_insights" "containerapps_dapr" {
-  name                = "appi-${local.project_affix}-containerapps-dapr"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.default.name
-  application_type    = "web"
-  workspace_id        = azurerm_log_analytics_workspace.default.id
-}
-
 resource "azurerm_application_insights" "bookstore" {
   name                = "appi-${local.project_affix}-bookstore-microservices"
   location            = var.location
@@ -113,7 +105,6 @@ resource "azapi_resource" "managed_environment" {
 
   body = jsonencode({
     properties = {
-      daprAIConnectionString = azurerm_application_insights.containerapps_dapr.connection_string
       appLogsConfiguration = {
         destination = "log-analytics"
         logAnalyticsConfiguration = {
@@ -122,6 +113,7 @@ resource "azapi_resource" "managed_environment" {
         }
       }
       vnetConfiguration = {
+        # TODO: Verify internal
         internal               = false
         infrastructureSubnetId = module.network.infrastructure_subnet_id
         runtimeSubnetId        = module.network.runtime_subnet_id
