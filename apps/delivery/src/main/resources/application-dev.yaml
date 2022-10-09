@@ -6,8 +6,8 @@ spring.datasource.password: P4ssw0rd#777
 spring.jpa.hibernate.ddl-auto: update
 
 # Service Bus
-azure.servicebus.prefetchCount: 30
-azure.servicebus.maxConcurrentCalls: 30
+azure.servicebus.prefetchCount: 10
+azure.servicebus.maxConcurrentCalls: 100
 
 # Logging
 # logging.level.root: DEBUG

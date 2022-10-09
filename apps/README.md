@@ -39,8 +39,8 @@ https://azuresdkdocs.blob.core.windows.net/$web/java/azure-messaging-servicebus/
 ```sh
 az group create -n "rg-dev" -l "eastus2"
 az servicebus namespace create -n "bus-serverless-bookstore-dev" -g "rg-dev" -l "eastus2"
-az servicebus queue create -n 'orders' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev"
-az servicebus queue create -n 'healthcheck' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --default-message-time-to-live "00:00:05"
+az servicebus queue create -n 'orders' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --enable-partitioning
+az servicebus queue create -n 'healthcheck' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --default-message-time-to-live "00:00:05"  --enable-partitioning
 
 az servicebus namespace show -n "bus-serverless-bookstore-dev" -g "rg-dev"
 
@@ -49,6 +49,8 @@ az servicebus namespace authorization-rule keys list \
   --namespace-name "bus-serverless-bookstore-dev" \
   --name "RootManageSharedAccessKey" \
   --query "primaryConnectionString" -o tsv
+
+export AZURE_SERVICEBUS_CONNECTION_STRING=""
 ```
 
 ```sh
