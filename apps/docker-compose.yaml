@@ -1,13 +1,12 @@
 version: "3.9"
 services:
   store:
-    build: store
+    image: ghcr.io/epomatti/azure-serverless-bookstore-store:latest
     ports:
       - "8080:8080"
     environment:
       SQLSERVER_JDBC_URL: "jdbc:sqlserver://database:1433;trustServerCertificate=true;user=SA;password=P4ssw0rd#777;"
-      HIKARI_CONFIG_LOGGING_LEVEL: INFO
-      HIKARI_LOGGING_LEVEL: INFO
+      AZURE_SERVICEBUS_CONNECTION_STRING: $AZURE_SERVICEBUS_CONNECTION_STRING
     depends_on:
       database:
         condition: service_started

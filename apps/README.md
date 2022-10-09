@@ -24,7 +24,7 @@ docker build . -t ghcr.io/epomatti/azure-serverless-bookstore-store --build-arg 
 ```
 
 
-docker build -t epomatti/azure-serverless-bookstore-store -f store/Dockerfile .
+docker build -t epomatti/azure-serverless-bookstore-store
 
 
 
