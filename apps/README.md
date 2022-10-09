@@ -44,13 +44,7 @@ az servicebus queue create -n 'healthcheck' --namespace-name "bus-serverless-boo
 
 az servicebus namespace show -n "bus-serverless-bookstore-dev" -g "rg-dev"
 
-az servicebus namespace authorization-rule keys list \
-  -g "rg-dev" \
-  --namespace-name "bus-serverless-bookstore-dev" \
-  --name "RootManageSharedAccessKey" \
-  --query "primaryConnectionString" -o tsv
-
-export AZURE_SERVICEBUS_CONNECTION_STRING=""
+export AZURE_SERVICEBUS_CONNECTION_STRING=$(az servicebus namespace authorization-rule keys list -g "rg-dev" --namespace-name "bus-serverless-bookstore-dev" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv)
 ```
 
 ```sh

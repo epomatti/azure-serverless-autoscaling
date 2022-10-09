@@ -7,7 +7,7 @@ spring.jpa.hibernate.ddl-auto: update
 
 # Service Bus
 azure.servicebus.prefetchCount: 10
-azure.servicebus.maxConcurrentCalls: 100
+azure.servicebus.maxConcurrentCalls: 1000
 
 # Logging
 # logging.level.root: DEBUG

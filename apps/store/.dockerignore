@@ -1,2 +1,3 @@
 target
 .gitginore
+src/main/resources/application-dev.yaml
