@@ -21,7 +21,7 @@ COPY ./applicationinsights.json /opt/appi/
 FROM eclipse-temurin:17-jre-jammy
 LABEL org.opencontainers.image.source https://github.com/epomatti/azure-serverless-autoscaling
 WORKDIR /opt/app
-EXPOSE 8080
+EXPOSE 8081
 COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
 COPY --from=builder /opt/appi /opt/appi
 ENTRYPOINT ["java", "-javaagent:/opt/appi/appi-agent.jar", "-jar", "/opt/app/*.jar" ]
