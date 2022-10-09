@@ -2,11 +2,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.24.0"
+      version = "3.26.0"
     }
     azapi = {
       source  = "Azure/azapi"
-      version = "0.6.0"
+      version = "1.0.0"
     }
   }
   backend "local" {
@@ -67,6 +67,15 @@ module "mssql" {
   sqlserver_zone_redundant              = var.sqlserver_zone_redundant
   virtual_network_id                    = module.network.virtual_network_id
   sqlserver_infrastructure_subnet_id    = module.network.infrastructure_subnet_id
+}
+
+### Service Bus ###
+
+module "servicebus" {
+  source        = "./modules/servicebus"
+  location      = var.location
+  group         = azurerm_resource_group.default.name
+  project_affix = local.project_affix
 }
 
 ### Azure Monitor ###
@@ -148,9 +157,7 @@ module "containerapp_books" {
   container_image = "epomatti/azure-sqlserverless-books"
   container_envs = [
     { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_private_url },
-    { name = "APPLICATIONINSIGHTS_CONNECTION_STRING", value = azurerm_application_insights.bookapp.connection_string },
-    { name = "HIKARI_CONFIG_LOGGING_LEVEL", value = "INFO" },
-    { name = "HIKARI_LOGGING_LEVEL", value = "INFO" }
+    { name = "APPLICATIONINSIGHTS_CONNECTION_STRING", value = azurerm_application_insights.bookapp.connection_string }
   ]
 }
 
