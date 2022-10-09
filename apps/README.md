@@ -20,21 +20,17 @@ https://docs.github.com/en/packages/working-with-a-github-packages-registry/work
 
 ```sh
 GITHUB_REGISTRY_TOKEN="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
 docker build . -t ghcr.io/epomatti/azure-serverless-bookstore-store --build-arg GITHUB_REGISTRY_TOKEN="$GITHUB_REGISTRY_TOKEN"
+docker build . -t ghcr.io/epomatti/azure-serverless-bookstore-delivery --build-arg GITHUB_REGISTRY_TOKEN="$GITHUB_REGISTRY_TOKEN"
+
+echo $GITHUB_REGISTRY_TOKEN | docker login ghcr.io -u epomatti --password-stdin
+
+docker push ghcr.io/epomatti/azure-serverless-bookstore-store:latest
+docker push ghcr.io/epomatti/azure-serverless-bookstore-delivery:latest
 ```
 
 
-docker build -t epomatti/azure-serverless-bookstore-store
-
-
-
-echo $GITHUB_REGISTRY_TOKEN | docker login ghcr.io -u epomatti --password-stdin
-docker login ghcr.io -u epomatti --password-stdin
-docker login ghcr.io -u epomatti
-
-login with pat blalbjasd
-
-docker push ghcr.io/epomatti/azure-serverless-bookstore-store:latest
 
 https://azuresdkdocs.blob.core.windows.net/$web/java/azure-messaging-servicebus/7.11.0/index.html
 
