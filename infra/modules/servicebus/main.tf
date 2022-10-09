@@ -10,11 +10,15 @@ variable "project_affix" {
   type = string
 }
 
+variable "sku" {
+  type = string
+}
+
 resource "azurerm_servicebus_namespace" "default" {
   name                = "bus-${var.project_affix}"
   location            = var.location
   resource_group_name = var.group
-  sku                 = "Standard"
+  sku                 = var.sku
 }
 
 resource "azurerm_servicebus_queue" "orders" {
@@ -33,7 +37,7 @@ resource "azurerm_servicebus_namespace_authorization_rule" "store_app" {
   name         = "store-app"
   namespace_id = azurerm_servicebus_namespace.default.id
 
-  listen = false
+  listen = true
   send   = true
   manage = false
 }
@@ -43,7 +47,7 @@ resource "azurerm_servicebus_namespace_authorization_rule" "delivery_app" {
   namespace_id = azurerm_servicebus_namespace.default.id
 
   listen = true
-  send   = false
+  send   = true
   manage = false
 }
 

@@ -75,6 +75,7 @@ module "servicebus" {
   location      = var.location
   group         = azurerm_resource_group.default.name
   project_affix = local.project_affix
+  sku           = var.servicebus_sku
 }
 
 ### Azure Monitor ###

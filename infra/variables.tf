@@ -68,12 +68,17 @@ variable "auto_scale_cpu" {
 
 ### Service Bus ###
 
+variable "servicebus_sku" {
+  type    = string
+  default = "Standard"
+}
+
 variable "azure_servicebus_prefetch_count" {
-  type    = number
-  default = 100
+  type    = string
+  default = "100"
 }
 
 variable "azure_servicebus_max_concurrent_calls" {
-  type    = number
-  default = 100
+  type    = string
+  default = "100"
 }
