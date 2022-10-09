@@ -20,13 +20,14 @@ https://docs.github.com/en/packages/working-with-a-github-packages-registry/work
 
 ```sh
 GITHUB_REGISTRY_TOKEN="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-docker build . -t ghcr.io/epomatti/azure-serverless-bookstore-store --build-arg GITHUB_REGISTRY_TOKEN="$GITHUB_REGISTRY_TOKEN"
-docker build . -t ghcr.io/epomatti/azure-serverless-bookstore-delivery --build-arg GITHUB_REGISTRY_TOKEN="$GITHUB_REGISTRY_TOKEN"
-
 echo $GITHUB_REGISTRY_TOKEN | docker login ghcr.io -u epomatti --password-stdin
 
+# Store
+docker build . -t ghcr.io/epomatti/azure-serverless-bookstore-store --build-arg GITHUB_REGISTRY_TOKEN="$GITHUB_REGISTRY_TOKEN"
 docker push ghcr.io/epomatti/azure-serverless-bookstore-store:latest
+
+# Delivery
+docker build . -t ghcr.io/epomatti/azure-serverless-bookstore-delivery --build-arg GITHUB_REGISTRY_TOKEN="$GITHUB_REGISTRY_TOKEN"
 docker push ghcr.io/epomatti/azure-serverless-bookstore-delivery:latest
 ```
 

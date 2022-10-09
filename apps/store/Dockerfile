@@ -15,6 +15,7 @@ RUN ./mvnw clean install -s settings.xml
 # Application Insights
 RUN mkdir /opt/appi
 RUN curl -L https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.4.1/applicationinsights-agent-3.4.1.jar --output /opt/appi/appi-agent.jar
+COPY ./applicationinsights.json /opt/appi/
 
 
 FROM eclipse-temurin:17-jre-jammy
