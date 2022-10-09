@@ -1,0 +1,10 @@
+spring.sql.init.mode: always
+spring.datasource.url: "jdbc:sqlserver://localhost:1433;trustServerCertificate=true;"
+spring.datasource.username: sa
+spring.datasource.password: P4ssw0rd#777
+spring.jpa.hibernate.ddl-auto: update
+
+# Logging
+# logging.level.root: DEBUG
+# logging.level.com.zaxxer.hikari.HikariConfig: INFO
+# logging.level.com.zaxxer.hikari: INFO
