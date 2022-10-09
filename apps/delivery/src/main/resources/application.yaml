@@ -5,6 +5,8 @@ spring.jpa.hibernate.ddl-auto: update
 
 # Service Bus
 azure.servicebus.connectionstring: ${AZURE_SERVICEBUS_CONNECTION_STRING}
+azure.servicebus.prefetchCount: ${AZURE_SERVICEBUS_PREFETCH_COUNT}
+azure.servicebus.maxConcurrentCalls: ${AZURE_SERVICEBUS_MAX_CONCURRENT_CALLS}
 
 # Logging
 # logging.level.com.zaxxer.hikari.HikariConfig: ${HIKARI_CONFIG_LOGGING_LEVEL} 

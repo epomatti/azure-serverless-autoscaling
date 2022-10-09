@@ -161,6 +161,38 @@ module "containerapp_store" {
   ]
 }
 
+module "containerapp_delivery" {
+  source = "./modules/containerapp"
+
+  # Container App
+  name        = "app-delivery"
+  location    = var.location
+  group_id    = azurerm_resource_group.default.id
+  environment = azapi_resource.managed_environment.id
+
+  # Ingress
+  external            = true
+  ingress_target_port = 8080
+
+  # Resources
+  cpu                            = var.app_cpu
+  memory                         = var.app_memory
+  min_replicas                   = var.app_min_replicas
+  max_replicas                   = var.app_max_replicas
+  auto_scale_concurrent_requests = var.app_auto_scale_concurrent_requests
+  auto_scale_cpu                 = var.auto_scale_cpu
+
+  # Container
+  container_image = "ghcr.io/epomatti/azure-serverless-bookstore-delivery:latest"
+  container_envs = [
+    { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_private_url_delivery },
+    { name = "AZURE_SERVICEBUS_CONNECTION_STRING", value = module.servicebus.delivery_app_connection_string },
+    { name = "AZURE_SERVICEBUS_PREFETCH_COUNT", value = var.azure_servicebus_prefetch_count },
+    { name = "AZURE_SERVICEBUS_MAX_CONCURRENT_CALLS", value = var.azure_servicebus_max_concurrent_calls },
+    { name = "APPLICATIONINSIGHTS_CONNECTION_STRING", value = azurerm_application_insights.bookstore.connection_string }
+  ]
+}
+
 ### Outputs ###
 
 output "sqlserver_jdbc_public_url_store" {

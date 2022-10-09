@@ -49,7 +49,7 @@ public class OrderService {
   @Autowired
   ServiceBusConfiguration config;
 
-  private static String ORDERS_QUEUE = "orders";
+  private final static String ORDERS_QUEUE = "orders";
 
   public void createDelivery(Order order) {
     var senderClient = config.getClientBuilder()

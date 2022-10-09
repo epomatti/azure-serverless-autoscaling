@@ -1,5 +1,5 @@
 variable "location" {
-  type = string
+  type    = string
   default = "eastus2"
 }
 
@@ -64,4 +64,16 @@ variable "app_auto_scale_concurrent_requests" {
 variable "auto_scale_cpu" {
   type    = string
   default = "50"
+}
+
+### Service Bus ###
+
+variable "azure_servicebus_prefetch_count" {
+  type    = number
+  default = 100
+}
+
+variable "azure_servicebus_max_concurrent_calls" {
+  type    = number
+  default = 100
 }

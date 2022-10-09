@@ -26,6 +26,14 @@ public class DeliveryConsumer {
   @Value("${azure.servicebus.connectionstring}")
   private String connectionString;
 
+  @Value("${azure.servicebus.prefetchCount}")
+  private Integer prefetchCount;
+
+  @Value("${azure.servicebus.maxConcurrentCalls}")
+  private Integer maxConcurrentCalls;
+
+  private final static String ORDERS_QUEUE = "orders";
+
   public void start() {
     Consumer<ServiceBusReceivedMessageContext> processMessage = messageContext -> {
       try {
@@ -47,7 +55,9 @@ public class DeliveryConsumer {
     ServiceBusProcessorClient processorClient = new ServiceBusClientBuilder()
         .connectionString(connectionString)
         .processor()
-        .queueName("orders")
+        .maxConcurrentCalls(maxConcurrentCalls)
+        .prefetchCount(prefetchCount)
+        .queueName(ORDERS_QUEUE)
         .processMessage(processMessage)
         .processError(processError)
         .disableAutoComplete()
