@@ -75,10 +75,10 @@ variable "servicebus_sku" {
 
 variable "azure_servicebus_prefetch_count" {
   type    = string
-  default = "20"
+  default = "10"
 }
 
 variable "azure_servicebus_max_concurrent_calls" {
   type    = string
-  default = "500"
+  default = "100"
 }
