@@ -1,14 +1,17 @@
-{
-  "properties": [
-    {
-      "name": "logging.level.com.zaxxer.hikari.HikariConfig",
-      "type": "java.lang.String",
-      "description": "A description for 'logging.level.com.zaxxer.hikari.HikariConfig'"
-    },
-    {
-      "name": "logging.level.com.zaxxer.hikari",
-      "type": "java.lang.String",
-      "description": "A description for 'logging.level.com.zaxxer.hikari'"
-    }
-  ]
-}
+{"properties": [
+  {
+    "name": "logging.level.com.zaxxer.hikari.HikariConfig",
+    "type": "java.lang.String",
+    "description": "A description for 'logging.level.com.zaxxer.hikari.HikariConfig'"
+  },
+  {
+    "name": "logging.level.com.zaxxer.hikari",
+    "type": "java.lang.String",
+    "description": "A description for 'logging.level.com.zaxxer.hikari'"
+  },
+  {
+    "name": "azure.servicebus.connectionstring",
+    "type": "java.lang.String",
+    "description": "A description for 'azure.servicebus.connectionstring'"
+  }
+]}

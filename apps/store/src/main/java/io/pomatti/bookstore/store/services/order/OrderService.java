@@ -5,6 +5,10 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.azure.messaging.servicebus.ServiceBusMessage;
+
+import io.pomatti.bookstore.store.shared.ServiceBusConfiguration;
+
 @Service
 public class OrderService {
 
@@ -42,8 +46,21 @@ public class OrderService {
     return orderRepository.save(order);
   }
 
+  @Autowired
+  ServiceBusConfiguration config;
+
+  private static String ORDERS_QUEUE = "orders";
+
   public void createDelivery(Order order) {
-    
+    var senderClient = config.getClientBuilder()
+        .sender()
+        .queueName(ORDERS_QUEUE)
+        .buildClient();
+    try {
+      senderClient.sendMessage(new ServiceBusMessage(order.getId().toString()));
+    } finally {
+      senderClient.close();
+    }
   }
 
 }

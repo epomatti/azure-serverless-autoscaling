@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>io.pomatti.bookstore</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.1.0</version>
+		<version>0.1.1</version>		
 		<relativePath />
 	</parent>
 
@@ -43,6 +43,10 @@
 		<dependency>
 			<groupId>io.pomatti.bookstore</groupId>
 			<artifactId>core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-messaging-servicebus</artifactId>
 		</dependency>
 	</dependencies>
 

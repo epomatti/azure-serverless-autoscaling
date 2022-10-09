@@ -35,3 +35,25 @@ docker login ghcr.io -u epomatti
 login with pat blalbjasd
 
 docker push ghcr.io/epomatti/azure-serverless-bookstore-store:latest
+
+https://azuresdkdocs.blob.core.windows.net/$web/java/azure-messaging-servicebus/7.11.0/index.html
+
+
+```sh
+az group create -n "rg-dev" -l "eastus2"
+az servicebus namespace create -n "bus-serverless-bookstore-dev" -g "rg-dev" -l "eastus2"
+az servicebus queue create -n 'orders' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev"
+az servicebus queue create -n 'healthcheck' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --default-message-time-to-live "00:00:05"
+
+az servicebus namespace show -n "bus-serverless-bookstore-dev" -g "rg-dev"
+
+az servicebus namespace authorization-rule keys list \
+  -g "rg-dev" \
+  --namespace-name "bus-serverless-bookstore-dev" \
+  --name "RootManageSharedAccessKey" \
+  --query "primaryConnectionString" -o tsv
+```
+
+```sh
+export AZURE_SERVICEBUS_CONNECTION_STRING="Endpoint=sb://{NAMESPACE}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={SHARED_ACCESS_KEY"
+```

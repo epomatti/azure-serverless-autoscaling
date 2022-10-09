@@ -48,6 +48,13 @@ k6 run \
     http_post.js
 ```
 
+```sh
+k6 run \
+    --vus 100 \
+    --duration 500s \
+    orders.js
+```
+
 ## Local Development
 
 Setup for local development:
