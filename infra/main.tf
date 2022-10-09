@@ -172,7 +172,7 @@ module "containerapp_delivery" {
 
   # Ingress
   external            = false
-  ingress_target_port = 8080
+  ingress_target_port = 8081
 
   # Resources
   cpu                            = var.app_cpu
