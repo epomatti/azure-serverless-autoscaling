@@ -171,7 +171,7 @@ module "containerapp_delivery" {
   environment = azapi_resource.managed_environment.id
 
   # Ingress
-  external            = true
+  external            = false
   ingress_target_port = 8080
 
   # Resources

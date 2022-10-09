@@ -1,3 +1,7 @@
+# Spring Boot
+server:
+  port : 8080
+
 # Database
 spring.sql.init.mode: always
 spring.datasource.url: ${SQLSERVER_JDBC_URL}
