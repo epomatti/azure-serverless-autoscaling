@@ -11,9 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.azure.messaging.servicebus.ServiceBusMessage;
-
-// import io.pomatti.bookstore.delivery.shared.ServiceBusConfiguration;
+import io.pomatti.bookstore.delivery.services.DeliveryConsumer;
 
 @ComponentScan({ "io.pomatti.bookstore.delivery" })
 @EntityScan({ "io.pomatti.bookstore.delivery" })
@@ -23,8 +21,8 @@ public class DeliveryApplication {
 
 	Logger logger = LoggerFactory.getLogger(DeliveryApplication.class);
 
-	// @Autowired
-	// ServiceBusConfiguration config;
+	@Autowired
+	DeliveryConsumer consumer;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DeliveryApplication.class, args);
@@ -32,17 +30,7 @@ public class DeliveryApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void runAfterStartup() {
-		// logger.info("Starting Service Bus");
-
-		// var sender = config.getClientBuilder().sender()
-		// 		.queueName("healthcheck")
-		// 		.buildClient();
-		// try {
-		// 	sender.sendMessage(new ServiceBusMessage("health check"));
-		// 	logger.info("Service Bus started");
-		// } finally {
-		// 	sender.close();
-		// }
+		consumer.start();
 	}
 
 }
