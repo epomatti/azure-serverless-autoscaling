@@ -63,7 +63,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "default" {
 ### Private Endpoint ###
 
 resource "azurerm_private_endpoint" "default" {
-  name                = "pe-sqlserver"
+  name                = "pep-sqlserver"
   location            = var.location
   resource_group_name = var.group
   subnet_id           = var.sqlserver_infrastructure_subnet_id

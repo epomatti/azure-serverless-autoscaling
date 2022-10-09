@@ -25,12 +25,12 @@ provider "azurerm" {
 ### Locals ###
 
 locals {
-  project_affix = "serverless-bookstore-${random_integer.affix.result}"
+  project_affix = "serverless-bookstore${random_integer.affix.result}"
 }
 
 resource "random_integer" "affix" {
-  min = 1000
-  max = 9999
+  min = 100
+  max = 999
 }
 
 ### Group ###
@@ -86,16 +86,16 @@ resource "azurerm_log_analytics_workspace" "default" {
   sku                 = "PerGB2018"
 }
 
-resource "azurerm_application_insights" "default" {
-  name                = "appi-${local.project_affix}"
+resource "azurerm_application_insights" "containerapps_dapr" {
+  name                = "appi-${local.project_affix}-containerapps-dapr"
   location            = var.location
   resource_group_name = azurerm_resource_group.default.name
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.default.id
 }
 
-resource "azurerm_application_insights" "bookapp" {
-  name                = "appi-${local.project_affix}-bookapp"
+resource "azurerm_application_insights" "bookstore" {
+  name                = "appi-${local.project_affix}-bookstore-microservices"
   location            = var.location
   resource_group_name = azurerm_resource_group.default.name
   application_type    = "web"
@@ -112,7 +112,7 @@ resource "azapi_resource" "managed_environment" {
 
   body = jsonencode({
     properties = {
-      daprAIConnectionString = azurerm_application_insights.default.connection_string
+      daprAIConnectionString = azurerm_application_insights.containerapps_dapr.connection_string
       appLogsConfiguration = {
         destination = "log-analytics"
         logAnalyticsConfiguration = {
@@ -157,7 +157,7 @@ module "containerapp_store" {
   container_envs = [
     { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_private_url_store },
     { name = "AZURE_SERVICEBUS_CONNECTION_STRING", value = module.servicebus.store_app_connection_string },
-    { name = "APPLICATIONINSIGHTS_CONNECTION_STRING", value = azurerm_application_insights.bookapp.connection_string }
+    { name = "APPLICATIONINSIGHTS_CONNECTION_STRING", value = azurerm_application_insights.bookstore.connection_string }
   ]
 }
 
