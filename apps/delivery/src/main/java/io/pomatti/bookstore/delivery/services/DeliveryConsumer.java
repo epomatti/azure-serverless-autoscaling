@@ -1,6 +1,5 @@
 package io.pomatti.bookstore.delivery.services;
 
-import java.time.LocalDateTime;
 import java.util.function.Consumer;
 
 import javax.annotation.PreDestroy;
@@ -45,9 +44,8 @@ public class DeliveryConsumer {
       try {
         var payload = messageContext.getMessage().getBody().toString();
         var orderId = Long.parseLong(payload);
-        var repository = context.getBean(DeliveryRepository.class);
-        var delivery = buildDelivery(orderId);
-        repository.save(delivery);
+        var service = context.getBean(DeliveryService.class);
+        service.createDelivery(orderId);
         messageContext.complete();
       } catch (Exception ex) {
         messageContext.abandon();
@@ -82,39 +80,6 @@ public class DeliveryConsumer {
     } else {
       logger.info("Service Bus processor was null");
     }
-  }
-
-  protected Delivery buildDelivery(Long orderId) {
-    var delivery = new Delivery();
-
-    delivery.setOrderId(orderId);
-
-    delivery.setExtraString1("abcdefghijk");
-    delivery.setExtraString2("abcdefghijk");
-    delivery.setExtraString3("abcdefghijk");
-    delivery.setExtraString4("abcdefghijk");
-    delivery.setExtraString5("abcdefghijk");
-    delivery.setExtraString6("abcdefghijk");
-    delivery.setExtraString7("abcdefghijk");
-    delivery.setExtraString8("abcdefghijk");
-    delivery.setExtraString9("abcdefghijk");
-    delivery.setExtraString10("abcdefghijk");
-
-    delivery.setExtraLong1(1000L);
-    delivery.setExtraLong2(1000L);
-    delivery.setExtraLong3(1000L);
-    delivery.setExtraLong4(1000L);
-    delivery.setExtraLong5(1000L);
-    delivery.setExtraLong6(1000L);
-
-    delivery.setExtraDateTime1(LocalDateTime.now());
-    delivery.setExtraDateTime2(LocalDateTime.now());
-    delivery.setExtraDateTime3(LocalDateTime.now());
-    delivery.setExtraDateTime4(LocalDateTime.now());
-    delivery.setExtraDateTime5(LocalDateTime.now());
-    delivery.setExtraDateTime6(LocalDateTime.now());
-
-    return delivery;
   }
 
 }
