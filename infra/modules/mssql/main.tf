@@ -23,8 +23,20 @@ resource "azurerm_mssql_firewall_rule" "allow_internal" {
   end_ip_address   = "0.0.0.0"
 }
 
-resource "azurerm_mssql_database" "default" {
-  name                        = "sqldb-${var.name}"
+### Databases ###
+
+resource "azurerm_mssql_database" "store_app" {
+  name                        = "sqldb-${var.name}-store"
+  server_id                   = azurerm_mssql_server.default.id
+  max_size_gb                 = var.sqlserver_max_size_gb
+  sku_name                    = var.sqlserver_sku_name
+  auto_pause_delay_in_minutes = var.sqlserver_auto_pause_delay_in_minutes
+  min_capacity                = var.sqlserver_min_capacity
+  zone_redundant              = false
+}
+
+resource "azurerm_mssql_database" "delivery_app" {
+  name                        = "sqldb-${var.name}-delivery"
   server_id                   = azurerm_mssql_server.default.id
   max_size_gb                 = var.sqlserver_max_size_gb
   sku_name                    = var.sqlserver_sku_name
@@ -35,31 +47,31 @@ resource "azurerm_mssql_database" "default" {
 
 ### Private DNS Zone ###
 
-resource "azurerm_private_dns_zone" "database" {
+resource "azurerm_private_dns_zone" "default" {
   name                = "privatelink.database.windows.net"
   resource_group_name = var.group
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "database" {
+resource "azurerm_private_dns_zone_virtual_network_link" "default" {
   name                  = "sqldatabaselink"
   resource_group_name   = var.group
-  private_dns_zone_name = azurerm_private_dns_zone.database.name
+  private_dns_zone_name = azurerm_private_dns_zone.default.name
   virtual_network_id    = var.virtual_network_id
   registration_enabled  = true
 }
 
 ### Private Endpoint ###
 
-resource "azurerm_private_endpoint" "database" {
+resource "azurerm_private_endpoint" "default" {
   name                = "pe-sqlserver"
   location            = var.location
   resource_group_name = var.group
   subnet_id           = var.sqlserver_infrastructure_subnet_id
 
   private_dns_zone_group {
-    name = azurerm_private_dns_zone.database.name
+    name = azurerm_private_dns_zone.default.name
     private_dns_zone_ids = [
-      azurerm_private_dns_zone.database.id
+      azurerm_private_dns_zone.default.id
     ]
   }
 
@@ -73,10 +85,18 @@ resource "azurerm_private_endpoint" "database" {
 
 ### Outputs ###
 
-output "jdbc_public_url" {
-  value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+output "jdbc_public_url_store" {
+  value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.store_app.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
 }
 
-output "jdbc_private_url" {
-  value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.privatelink.database.windows.net:1433;database=${azurerm_mssql_database.default.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+output "jdbc_private_url_store" {
+  value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.privatelink.database.windows.net:1433;database=${azurerm_mssql_database.store_app.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+}
+
+output "jdbc_public_url_delivery" {
+  value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.database.windows.net:1433;database=${azurerm_mssql_database.delivery_app.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+}
+
+output "jdbc_private_url_delivery" {
+  value = "jdbc:sqlserver://${azurerm_mssql_server.default.name}.privatelink.database.windows.net:1433;database=${azurerm_mssql_database.delivery_app.name};user=${local.username}@${azurerm_mssql_server.default.name};password=${local.password};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
 }

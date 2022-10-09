@@ -25,8 +25,7 @@ provider "azurerm" {
 ### Locals ###
 
 locals {
-  name          = "serverless-autoscale"
-  project_affix = "${local.name}-${random_integer.affix.result}"
+  project_affix = "serverless-bookstore-${random_integer.affix.result}"
 }
 
 resource "random_integer" "affix" {
@@ -132,11 +131,11 @@ resource "azapi_resource" "managed_environment" {
 
 ### Application Apps - Services ###
 
-module "containerapp_books" {
+module "containerapp_store" {
   source = "./modules/containerapp"
 
   # Container App
-  name        = "app-books"
+  name        = "app-store"
   location    = var.location
   group_id    = azurerm_resource_group.default.id
   environment = azapi_resource.managed_environment.id
@@ -154,19 +153,20 @@ module "containerapp_books" {
   auto_scale_cpu                 = var.auto_scale_cpu
 
   # Container
-  container_image = "epomatti/azure-sqlserverless-books"
+  container_image = "ghcr.io/epomatti/azure-serverless-bookstore-store:latest"
   container_envs = [
-    { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_private_url },
+    { name = "SQLSERVER_JDBC_URL", value = module.mssql.jdbc_private_url_store },
+    { name = "AZURE_SERVICEBUS_CONNECTION_STRING", value = module.servicebus.store_app_connection_string },
     { name = "APPLICATIONINSIGHTS_CONNECTION_STRING", value = azurerm_application_insights.bookapp.connection_string }
   ]
 }
 
 ### Outputs ###
 
-output "sqlserver_jdbc_public_url" {
-  value = module.mssql.jdbc_public_url
+output "sqlserver_jdbc_public_url_store" {
+  value = module.mssql.jdbc_public_url_store
 }
 
 output "app_url" {
-  value = "https://${module.containerapp_books.fqdn}"
+  value = "https://${module.containerapp_store.fqdn}"
 }
