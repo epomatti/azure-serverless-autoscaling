@@ -1,0 +1,21 @@
+# Spring Boot
+server:
+  port : 8082
+
+# Database
+spring.sql.init.mode: always
+spring.datasource.url: ${SQLSERVER_JDBC_URL}
+spring.jpa.hibernate.ddl-auto: update
+
+# Service Bus
+azure.servicebus.connectionstring: ${AZURE_SERVICEBUS_CONNECTION_STRING}
+azure.servicebus.prefetchCount: ${AZURE_SERVICEBUS_PREFETCH_COUNT}
+azure.servicebus.maxConcurrentCalls: ${AZURE_SERVICEBUS_MAX_CONCURRENT_CALLS}
+
+# Logging
+# logging.level.com.zaxxer.hikari.HikariConfig: ${HIKARI_CONFIG_LOGGING_LEVEL} 
+# logging.level.com.zaxxer.hikari: ${HIKARI_LOGGING_LEVEL}
+# logging.level.org.springframework: DEBUG
+# logging.level.root: DEBUG
+
+# logging.level.com.azure: WARNING
