@@ -9,7 +9,7 @@ docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=P4ssw0rd#777" -p 1433:1433 -
 To run an app:
 
 ```sh
-mvn spring-boot:run -Dspring-boot.run.profiles=dev
+mvn spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments="-Dreactor.schedulers.defaultBoundedElasticSize=1000"
 ```
 
 https://github.com/marcelohweb/netflix-microservices
@@ -41,8 +41,6 @@ az group create -n "rg-dev" -l "eastus2"
 az servicebus namespace create -n "bus-serverless-bookstore-dev" -g "rg-dev" -l "eastus2"
 az servicebus queue create -n 'orders' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --enable-partitioning
 az servicebus queue create -n 'healthcheck' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --default-message-time-to-live "00:00:05"  --enable-partitioning
-
-az servicebus namespace show -n "bus-serverless-bookstore-dev" -g "rg-dev"
 
 export AZURE_SERVICEBUS_CONNECTION_STRING=$(az servicebus namespace authorization-rule keys list -g "rg-dev" --namespace-name "bus-serverless-bookstore-dev" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv)
 ```
