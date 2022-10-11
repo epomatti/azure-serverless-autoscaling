@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import io.pomatti.bookstore.invoice.services.InvoiceConsumer;
+import io.pomatti.bookstore.invoice.integration.InvoiceConsumer;
 
 @ComponentScan({ "io.pomatti.bookstore.invoice" })
 @EntityScan({ "io.pomatti.bookstore.invoice" })

@@ -1,4 +1,4 @@
-package io.pomatti.bookstore.invoice.services;
+package io.pomatti.bookstore.invoice.integration;
 
 import java.util.function.Consumer;
 
@@ -7,7 +7,6 @@ import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,8 @@ import com.azure.messaging.servicebus.ServiceBusClientBuilder;
 import com.azure.messaging.servicebus.ServiceBusErrorContext;
 import com.azure.messaging.servicebus.ServiceBusProcessorClient;
 import com.azure.messaging.servicebus.ServiceBusReceivedMessageContext;
+
+import io.pomatti.bookstore.invoice.services.InvoiceService;
 
 @Service
 @Scope("singleton")
@@ -26,16 +27,10 @@ public class InvoiceConsumer {
   @Autowired
   ApplicationContext context;
 
-  @Value("${azure.servicebus.connectionstring}")
-  private String connectionString;
+  @Autowired
+  ServiceBusConfiguration config;
 
-  @Value("${azure.servicebus.prefetchCount}")
-  private Integer prefetchCount;
-
-  @Value("${azure.servicebus.maxConcurrentCalls}")
-  private Integer maxConcurrentCalls;
-
-  private final static String ORDERS_QUEUE = "orders";
+  private final static String ORDERS_QUEUE = "invoices-issue";
 
   private static ServiceBusProcessorClient processorClient;
 
@@ -57,11 +52,11 @@ public class InvoiceConsumer {
     };
 
     processorClient = new ServiceBusClientBuilder()
-        .connectionString(connectionString)
+        .connectionString(config.getConnectionString())
         .processor()
-        .maxConcurrentCalls(maxConcurrentCalls)
+        .maxConcurrentCalls(config.getMaxConcurrentCalls())
         // .maxAutoLockRenewDuration(Duration.ofSeconds(60))
-        .prefetchCount(prefetchCount)
+        .prefetchCount(config.getPrefetchCount())
         .queueName(ORDERS_QUEUE)
         .processMessage(processMessage)
         .processError(processError)

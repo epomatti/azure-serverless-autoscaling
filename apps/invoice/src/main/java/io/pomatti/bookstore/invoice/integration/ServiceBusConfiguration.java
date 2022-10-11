@@ -14,4 +14,10 @@ public class ServiceBusConfiguration {
   @Value("${azure.servicebus.connectionstring}")
   private String connectionString;
 
+  @Value("${azure.servicebus.prefetchCount}")
+  private Integer prefetchCount;
+
+  @Value("${azure.servicebus.maxConcurrentCalls}")
+  private Integer maxConcurrentCalls;
+
 }
