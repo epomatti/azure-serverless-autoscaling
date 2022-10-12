@@ -1,10 +1,12 @@
 package io.pomatti.bookstore.store.integration;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class OrderSender {
 
   private final static String CREATE_INVOICE_QUEUE = "create-invoices";
 
-  public OrderSender() {
+  public void start() {
     this.sender = new ServiceBusSender(config.getConnectionString());
     sender.addAndInitSenderAsync(CREATE_INVOICE_QUEUE);
   }

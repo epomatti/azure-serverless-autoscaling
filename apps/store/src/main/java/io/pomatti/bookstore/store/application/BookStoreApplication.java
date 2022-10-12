@@ -11,6 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import io.pomatti.bookstore.store.integration.OrderSender;
+
 @ComponentScan({ "io.pomatti.bookstore.store" })
 @EntityScan({ "io.pomatti.bookstore.store" })
 @EnableJpaRepositories("io.pomatti.bookstore.store")
@@ -19,13 +21,16 @@ public class BookStoreApplication {
 
 	Logger logger = LoggerFactory.getLogger(BookStoreApplication.class);
 
+	@Autowired
+	OrderSender sender;
+
 	public static void main(String[] args) {
 		SpringApplication.run(BookStoreApplication.class, args);
 	}
 
-	// @EventListener(ApplicationReadyEvent.class)
-	// public void runAfterStartup() {
-
-	// }
+	@EventListener(ApplicationReadyEvent.class)
+	public void runAfterStartup() {
+		sender.start();
+	}
 
 }
