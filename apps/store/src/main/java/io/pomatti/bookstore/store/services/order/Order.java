@@ -1,11 +1,15 @@
 package io.pomatti.bookstore.store.services.order;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -43,5 +47,14 @@ public class Order {
   private LocalDateTime extraDateTime4;
   private LocalDateTime extraDateTime5;
   private LocalDateTime extraDateTime6;
+
+  @OneToMany
+  private Set<OrderItem> items = new HashSet<>();
+
+  public void addItem(Long bookCode) {
+    OrderItem item = new OrderItem();
+    item.setBookCode(bookCode);
+    items.add(item);
+  }
 
 }

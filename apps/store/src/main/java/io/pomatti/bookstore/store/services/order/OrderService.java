@@ -1,13 +1,12 @@
 package io.pomatti.bookstore.store.services.order;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.azure.messaging.servicebus.ServiceBusMessage;
-
-import io.pomatti.bookstore.store.shared.ServiceBusConfiguration;
+import io.pomatti.bookstore.store.integration.OrderSender;
 
 @Service
 public class OrderService {
@@ -15,8 +14,13 @@ public class OrderService {
   @Autowired
   OrderRepository orderRepository;
 
-  public Order createOrder() {
+  @Autowired
+  OrderSender sender;
+
+  public Order createOrder(List<Long> books) {
     var order = new Order();
+
+    books.forEach(book -> order.addItem(book));
 
     order.setExtraString1("abcdefghijk");
     order.setExtraString2("abcdefghijk");
@@ -46,21 +50,8 @@ public class OrderService {
     return orderRepository.save(order);
   }
 
-  @Autowired
-  ServiceBusConfiguration config;
-
-  private final static String ORDERS_QUEUE = "orders";
-
-  public void createDelivery(Order order) {
-    var senderClient = config.getClientBuilder()
-        .sender()
-        .queueName(ORDERS_QUEUE)
-        .buildClient();
-    try {
-      senderClient.sendMessage(new ServiceBusMessage(order.getId().toString()));
-    } finally {
-      senderClient.close();
-    }
+  public void createInvoices(Order order) {
+    sender.sendCreateInvoicesEvents(order);
   }
 
 }

@@ -11,10 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.azure.messaging.servicebus.ServiceBusMessage;
-
-import io.pomatti.bookstore.store.shared.ServiceBusConfiguration;
-
 @ComponentScan({ "io.pomatti.bookstore.store" })
 @EntityScan({ "io.pomatti.bookstore.store" })
 @EnableJpaRepositories("io.pomatti.bookstore.store")
@@ -23,26 +19,13 @@ public class BookStoreApplication {
 
 	Logger logger = LoggerFactory.getLogger(BookStoreApplication.class);
 
-	@Autowired
-	ServiceBusConfiguration config;
-
 	public static void main(String[] args) {
 		SpringApplication.run(BookStoreApplication.class, args);
 	}
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void runAfterStartup() {
-		logger.info("Starting Service Bus");
+	// @EventListener(ApplicationReadyEvent.class)
+	// public void runAfterStartup() {
 
-		var sender = config.getClientBuilder().sender()
-				.queueName("healthcheck")
-				.buildClient();
-		try {
-			sender.sendMessage(new ServiceBusMessage("health check"));
-			logger.info("Service Bus started");
-		} finally {
-			sender.close();
-		}
-	}
+	// }
 
 }
