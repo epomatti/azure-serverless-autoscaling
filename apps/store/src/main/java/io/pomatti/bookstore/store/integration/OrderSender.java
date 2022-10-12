@@ -30,7 +30,7 @@ public class OrderSender {
 
   public void start() {
     this.sender = new ServiceBusSender(config.getConnectionString());
-    sender.addAndInitSenderAsync(CREATE_INVOICE_QUEUE);
+    this.sender.addAndInitSenderAsync(CREATE_INVOICE_QUEUE);
   }
 
   public void sendCreateInvoicesEvents(Order order) throws RuntimeException {
@@ -42,12 +42,12 @@ public class OrderSender {
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
-    sender.send(CREATE_INVOICE_QUEUE, body);
+    this.sender.send(CREATE_INVOICE_QUEUE, body);
   }
 
   @PreDestroy
   public void close() {
-    sender.close();
+    this.sender.close();
   }
 
 }

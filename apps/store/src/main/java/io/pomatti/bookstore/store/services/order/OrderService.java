@@ -20,8 +20,6 @@ public class OrderService {
   public Order createOrder(List<Long> books) {
     var order = new Order();
 
-    books.forEach(book -> order.addItem(book));
-
     order.setExtraString1("abcdefghijk");
     order.setExtraString2("abcdefghijk");
     order.setExtraString3("abcdefghijk");
@@ -47,7 +45,11 @@ public class OrderService {
     order.setExtraDateTime5(LocalDateTime.now());
     order.setExtraDateTime6(LocalDateTime.now());
 
-    return orderRepository.save(order);
+    orderRepository.save(order);
+
+    books.forEach(book -> order.addItem(book));
+
+    return order;
   }
 
   public void createInvoices(Order order) {

@@ -4,7 +4,7 @@
 
 	<groupId>io.pomatti.bookstore</groupId>
 	<artifactId>parent</artifactId>
-	<version>0.1.6</version>
+	<version>0.1.7</version>
 	<name>bookstore</name>
 	<description>A scalable book store microservices application</description>
 	<packaging>pom</packaging>
@@ -39,7 +39,7 @@
 			<dependency>
 				<groupId>io.pomatti.bookstore</groupId>
 				<artifactId>core</artifactId>
-				<version>0.1.3</version>
+				<version>0.1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.azure</groupId>
