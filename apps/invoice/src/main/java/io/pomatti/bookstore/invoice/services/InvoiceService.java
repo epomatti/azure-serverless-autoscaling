@@ -11,7 +11,7 @@ public class InvoiceService {
   @Autowired
   InvoiceRepository repository;
 
-  public void createDelivery(Long orderId) {
+  public void createInvoices(Long orderId) {
     var delivery = new Invoice();
 
     delivery.setOrderId(orderId);

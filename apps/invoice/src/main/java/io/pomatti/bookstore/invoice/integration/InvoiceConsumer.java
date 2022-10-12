@@ -30,7 +30,7 @@ public class InvoiceConsumer {
   @Autowired
   ServiceBusConfiguration config;
 
-  private final static String ORDERS_QUEUE = "invoices-issue";
+  private final static String INVOICES_CREATE_QUEUE = "invoices-create";
 
   private static ServiceBusProcessorClient processorClient;
 
@@ -40,7 +40,7 @@ public class InvoiceConsumer {
         var payload = messageContext.getMessage().getBody().toString();
         var orderId = Long.parseLong(payload);
         var service = context.getBean(InvoiceService.class);
-        service.createDelivery(orderId);
+        service.createInvoices(orderId);
         messageContext.complete();
       } catch (Exception ex) {
         messageContext.abandon();
@@ -55,9 +55,8 @@ public class InvoiceConsumer {
         .connectionString(config.getConnectionString())
         .processor()
         .maxConcurrentCalls(config.getMaxConcurrentCalls())
-        // .maxAutoLockRenewDuration(Duration.ofSeconds(60))
         .prefetchCount(config.getPrefetchCount())
-        .queueName(ORDERS_QUEUE)
+        .queueName(INVOICES_CREATE_QUEUE)
         .processMessage(processMessage)
         .processError(processError)
         .disableAutoComplete()
