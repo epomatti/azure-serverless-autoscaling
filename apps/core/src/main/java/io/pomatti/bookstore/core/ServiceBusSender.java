@@ -37,8 +37,7 @@ public class ServiceBusSender {
   }
 
   public void addAndInitSenderAsync(String queueName) {
-    this.addAndInitSender(queueName);
-    // CompletableFuture.runAsync(() -> this.addAndInitSender(queueName));
+    CompletableFuture.runAsync(() -> this.addAndInitSender(queueName));
   }
 
   public void send(String queueName, String body) {

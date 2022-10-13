@@ -45,12 +45,8 @@ export AZURE_SERVICEBUS_CONNECTION_STRING=$(az servicebus namespace authorizatio
 ```
 
 ```sh
-export AZURE_SERVICEBUS_CONNECTION_STRING="Endpoint=sb://{NAMESPACE}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={SHARED_ACCESS_KEY"
+export AZURE_SERVICEBUS_CONNECTION_STRING="Endpoint=sb://{NAMESPACE}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={SHARED_ACCESS_KEY}"
 ```
-
-
-
-
 
 
 https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-prefetch?tabs=java
