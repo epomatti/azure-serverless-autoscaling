@@ -22,7 +22,7 @@ public class Invoice {
   private Long orderId;
   private Long registryNumber;
 
-  @Enumerated(EnumType.ORDINAL)
+  @Enumerated(EnumType.STRING)
   private Status status = Status.PENDING;
 
   // Filler fields

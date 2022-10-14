@@ -64,3 +64,30 @@ https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/servicebus/azure-messa
   "items": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
 }
 ```
+
+### Authorize Invoices
+
+
+```sql
+select id, order_id, status from invoice;
+
+select count(*) from invoice where status = 'PENDING';
+
+select count(*) from invoice where status = 'AUTHORIZED';
+
+INSERT INTO invoice
+  ( id, order_id, status )
+VALUES
+  (1, 1, 'PENDING'), 
+  (2, 1, 'PENDING'), 
+  (3, 1, 'PENDING'),
+  (4, 1, 'PENDING'), 
+  (5, 1, 'PENDING'), 
+  (6, 1, 'PENDING'),
+  (7, 1, 'PENDING'), 
+  (8, 1, 'PENDING'), 
+  (9, 1, 'PENDING'),
+  (10, 1, 'PENDING');
+
+delete from invoice where 1 = 1;
+```
