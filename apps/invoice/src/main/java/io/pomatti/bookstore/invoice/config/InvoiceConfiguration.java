@@ -1,4 +1,4 @@
-package io.pomatti.bookstore.invoice.integration;
+package io.pomatti.bookstore.invoice.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import lombok.Data;
 @Configuration
 @Scope(value = "singleton")
 @Data
-public class ServiceBusConfiguration {
+public class InvoiceConfiguration {
 
   @Value("${azure.servicebus.connectionstring}")
   private String connectionString;

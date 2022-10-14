@@ -15,7 +15,10 @@ import com.azure.messaging.servicebus.ServiceBusClientBuilder;
 import com.azure.messaging.servicebus.ServiceBusErrorContext;
 import com.azure.messaging.servicebus.ServiceBusProcessorClient;
 import com.azure.messaging.servicebus.ServiceBusReceivedMessageContext;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.pomatti.bookstore.invoice.config.InvoiceConfiguration;
 import io.pomatti.bookstore.invoice.services.InvoiceService;
 
 @Service
@@ -28,7 +31,7 @@ public class InvoiceConsumer {
   ApplicationContext context;
 
   @Autowired
-  ServiceBusConfiguration config;
+  InvoiceConfiguration config;
 
   private final static String INVOICES_CREATE_QUEUE = "invoices-create";
 
@@ -38,9 +41,9 @@ public class InvoiceConsumer {
     Consumer<ServiceBusReceivedMessageContext> processMessage = messageContext -> {
       try {
         var payload = messageContext.getMessage().getBody().toString();
-        var orderId = Long.parseLong(payload);
+        var event = fromJsonToObject(payload, CreateInvoiceEvent.class);
         var service = context.getBean(InvoiceService.class);
-        service.createInvoices(orderId);
+        service.enqueueInvoices(event);
         messageContext.complete();
       } catch (Exception ex) {
         messageContext.abandon();
@@ -73,6 +76,15 @@ public class InvoiceConsumer {
       logger.info("Closed Service Bus Processor");
     } else {
       logger.info("Service Bus processor was null");
+    }
+  }
+
+  protected <T> T fromJsonToObject(String json, Class<T> clazz) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      return objectMapper.readValue(json, clazz);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
     }
   }
 

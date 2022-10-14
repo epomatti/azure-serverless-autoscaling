@@ -5,43 +5,56 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.pomatti.bookstore.invoice.integration.CreateInvoiceEvent;
+import io.pomatti.bookstore.invoice.integration.InvoiceSender;
+
 @Service
 public class InvoiceService {
 
   @Autowired
   InvoiceRepository repository;
 
-  public void createInvoices(Long orderId) {
-    var delivery = new Invoice();
+  @Autowired
+  InvoiceSender sender;
 
-    delivery.setOrderId(orderId);
+  public void enqueueInvoices(CreateInvoiceEvent event) {
+    sender.sendProcessesInvoicesEvent(event.getItems());
+  }
 
-    delivery.setExtraString1("abcdefghijk");
-    delivery.setExtraString2("abcdefghijk");
-    delivery.setExtraString3("abcdefghijk");
-    delivery.setExtraString4("abcdefghijk");
-    delivery.setExtraString5("abcdefghijk");
-    delivery.setExtraString6("abcdefghijk");
-    delivery.setExtraString7("abcdefghijk");
-    delivery.setExtraString8("abcdefghijk");
-    delivery.setExtraString9("abcdefghijk");
-    delivery.setExtraString10("abcdefghijk");
+  public void createInvoice(CreateInvoiceEvent event) {
+    event.getItems().parallelStream().forEach(item -> {
+      var invoice = new Invoice();
+      populateInvoice(invoice);
+      invoice.setOrderId(event.getOrderId());
+      repository.save(invoice);
+    });
+  }
 
-    delivery.setExtraLong1(1000L);
-    delivery.setExtraLong2(1000L);
-    delivery.setExtraLong3(1000L);
-    delivery.setExtraLong4(1000L);
-    delivery.setExtraLong5(1000L);
-    delivery.setExtraLong6(1000L);
+  protected void populateInvoice(Invoice invoice) {
+    invoice.setExtraString1("abcdefghijk");
+    invoice.setExtraString2("abcdefghijk");
+    invoice.setExtraString3("abcdefghijk");
+    invoice.setExtraString4("abcdefghijk");
+    invoice.setExtraString5("abcdefghijk");
+    invoice.setExtraString6("abcdefghijk");
+    invoice.setExtraString7("abcdefghijk");
+    invoice.setExtraString8("abcdefghijk");
+    invoice.setExtraString9("abcdefghijk");
+    invoice.setExtraString10("abcdefghijk");
 
-    delivery.setExtraDateTime1(LocalDateTime.now());
-    delivery.setExtraDateTime2(LocalDateTime.now());
-    delivery.setExtraDateTime3(LocalDateTime.now());
-    delivery.setExtraDateTime4(LocalDateTime.now());
-    delivery.setExtraDateTime5(LocalDateTime.now());
-    delivery.setExtraDateTime6(LocalDateTime.now());
+    invoice.setExtraLong1(1000L);
+    invoice.setExtraLong2(1000L);
+    invoice.setExtraLong3(1000L);
+    invoice.setExtraLong4(1000L);
+    invoice.setExtraLong5(1000L);
+    invoice.setExtraLong6(1000L);
 
-    repository.save(delivery);
+    invoice.setExtraDateTime1(LocalDateTime.now());
+    invoice.setExtraDateTime2(LocalDateTime.now());
+    invoice.setExtraDateTime3(LocalDateTime.now());
+    invoice.setExtraDateTime4(LocalDateTime.now());
+    invoice.setExtraDateTime5(LocalDateTime.now());
+    invoice.setExtraDateTime6(LocalDateTime.now());
   }
 
 }

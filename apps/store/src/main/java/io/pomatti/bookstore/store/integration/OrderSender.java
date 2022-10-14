@@ -35,14 +35,17 @@ public class OrderSender {
 
   public void sendCreateInvoicesEvents(Order order) throws RuntimeException {
     var event = CreateInvoiceEvent.fromOrder(order);
+    String body = fromObjectToJson(event);
+    this.sender.send(CREATE_INVOICE_QUEUE, body);
+  }
+
+  protected String fromObjectToJson(Object object) {
     ObjectMapper objectMapper = new ObjectMapper();
-    String body;
     try {
-      body = objectMapper.writeValueAsString(event);
+      return objectMapper.writeValueAsString(object);
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
-    this.sender.send(CREATE_INVOICE_QUEUE, body);
   }
 
   @PreDestroy
