@@ -1,4 +1,4 @@
-package io.pomatti.bookstore.invoice.integration;
+package io.pomatti.bookstore.invoice.integration.bus;
 
 import java.util.function.Consumer;
 
@@ -18,6 +18,7 @@ import com.azure.messaging.servicebus.ServiceBusReceivedMessageContext;
 
 import io.pomatti.bookstore.core.JsonUtils;
 import io.pomatti.bookstore.invoice.config.InvoiceConfiguration;
+import io.pomatti.bookstore.invoice.integration.events.CreateInvoiceEvent;
 import io.pomatti.bookstore.invoice.services.InvoiceService;
 
 @Service

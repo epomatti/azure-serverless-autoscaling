@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.pomatti.bookstore.invoice.integration.CreateInvoiceEvent;
-import io.pomatti.bookstore.invoice.integration.InvoiceSender;
+import io.pomatti.bookstore.invoice.integration.bus.InvoiceSender;
+import io.pomatti.bookstore.invoice.integration.events.CreateInvoiceEvent;
 
 @Service
 public class InvoiceService {
@@ -24,7 +24,7 @@ public class InvoiceService {
       invoice.setOrderId(event.getOrderId());
       repository.save(invoice);
     });
-    sender.sendProcessesInvoicesEvent(event.getItems());
+    sender.sendAuthorizeInvoiceEvent(event.getItems());
   }
 
   // public void processInvoice(CreateInvoiceEvent event) {

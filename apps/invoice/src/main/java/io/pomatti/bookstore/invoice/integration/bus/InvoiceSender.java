@@ -1,4 +1,4 @@
-package io.pomatti.bookstore.invoice.integration;
+package io.pomatti.bookstore.invoice.integration.bus;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,12 +23,12 @@ public class InvoiceSender {
 
   private ServiceBusSender sender;
 
-  private final static String INVOICE_PROCESS_QUEUE = "process-invoices";
+  private final static String AUTHORIZE_INVOICES_QUEUE = "authorize-invoices";
   private final static String INVOICE_READY_QUEUE = "create-invoices";
 
   public void start() {
     this.sender = new ServiceBusSender(config.getConnectionString());
-    sender.addAndInitSenderAsync(INVOICE_PROCESS_QUEUE);
+    sender.addAndInitSenderAsync(AUTHORIZE_INVOICES_QUEUE);
     sender.addAndInitSenderAsync(INVOICE_READY_QUEUE);
   }
 
@@ -36,10 +36,10 @@ public class InvoiceSender {
     sender.send(INVOICE_READY_QUEUE, Long.toString(orderId));
   }
 
-  public void sendProcessesInvoicesEvent(List<Long> invoicesIds) {
+  public void sendAuthorizeInvoiceEvent(List<Long> invoicesIds) {
     List<String> strings = invoicesIds.stream().map(Object::toString)
         .collect(Collectors.toUnmodifiableList());
-    sender.sendBatch(INVOICE_PROCESS_QUEUE, strings);
+    sender.sendBatch(AUTHORIZE_INVOICES_QUEUE, strings);
   }
 
   public void close() {

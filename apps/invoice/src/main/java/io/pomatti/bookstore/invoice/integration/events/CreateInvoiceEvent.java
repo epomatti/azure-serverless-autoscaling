@@ -1,4 +1,4 @@
-package io.pomatti.bookstore.invoice.integration;
+package io.pomatti.bookstore.invoice.integration.events;
 
 import java.util.List;
 
