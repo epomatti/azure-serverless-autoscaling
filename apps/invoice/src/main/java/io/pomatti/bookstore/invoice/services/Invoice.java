@@ -22,7 +22,7 @@ public class Invoice {
   private Long orderId;
 
   @Enumerated(EnumType.ORDINAL)
-  private Status status;
+  private Status status = Status.PENDING;
 
   // Filler fields
   private String extraString1;

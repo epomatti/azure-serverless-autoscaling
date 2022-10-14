@@ -33,7 +33,7 @@ public class InvoiceConsumer {
   @Autowired
   InvoiceConfiguration config;
 
-  private final static String INVOICES_CREATE_QUEUE = "create-invoices";
+  private final static String CREATE_INVOICES_QUEUE = "create-invoices";
 
   private static ServiceBusProcessorClient processorClient;
 
@@ -59,7 +59,7 @@ public class InvoiceConsumer {
         .processor()
         .maxConcurrentCalls(config.getMaxConcurrentCalls())
         .prefetchCount(config.getPrefetchCount())
-        .queueName(INVOICES_CREATE_QUEUE)
+        .queueName(CREATE_INVOICES_QUEUE)
         .processMessage(processMessage)
         .processError(processError)
         .disableAutoComplete()
