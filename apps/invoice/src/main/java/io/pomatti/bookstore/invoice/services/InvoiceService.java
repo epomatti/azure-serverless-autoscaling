@@ -17,18 +17,24 @@ public class InvoiceService {
   @Autowired
   InvoiceSender sender;
 
-  public void enqueueInvoices(CreateInvoiceEvent event) {
-    sender.sendProcessesInvoicesEvent(event.getItems());
-  }
-
-  public void createInvoice(CreateInvoiceEvent event) {
+  public void createInvoices(CreateInvoiceEvent event) {
     event.getItems().parallelStream().forEach(item -> {
       var invoice = new Invoice();
       populateInvoice(invoice);
       invoice.setOrderId(event.getOrderId());
       repository.save(invoice);
     });
+    sender.sendProcessesInvoicesEvent(event.getItems());
   }
+
+  // public void processInvoice(CreateInvoiceEvent event) {
+  //   event.getItems().parallelStream().forEach(item -> {
+  //     var invoice = new Invoice();
+  //     populateInvoice(invoice);
+  //     invoice.setOrderId(event.getOrderId());
+  //     repository.save(invoice);
+  //   });
+  // }
 
   protected void populateInvoice(Invoice invoice) {
     invoice.setExtraString1("abcdefghijk");

@@ -9,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.pomatti.bookstore.core.ServiceBusSender;
 import io.pomatti.bookstore.invoice.config.InvoiceConfiguration;
 
@@ -27,7 +24,7 @@ public class InvoiceSender {
   private ServiceBusSender sender;
 
   private final static String INVOICE_PROCESS_QUEUE = "process-invoices";
-  private final static String INVOICE_READY_QUEUE = "invoices-ready";
+  private final static String INVOICE_READY_QUEUE = "create-invoices";
 
   public void start() {
     this.sender = new ServiceBusSender(config.getConnectionString());
@@ -43,15 +40,6 @@ public class InvoiceSender {
     List<String> strings = invoicesIds.stream().map(Object::toString)
         .collect(Collectors.toUnmodifiableList());
     sender.sendBatch(INVOICE_PROCESS_QUEUE, strings);
-  }
-
-  protected String fromObjectToJson(Object object) {
-    ObjectMapper objectMapper = new ObjectMapper();
-    try {
-      return objectMapper.writeValueAsString(object);
-    } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   public void close() {
