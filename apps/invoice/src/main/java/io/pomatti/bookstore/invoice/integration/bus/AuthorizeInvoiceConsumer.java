@@ -23,9 +23,9 @@ import io.pomatti.bookstore.invoice.services.InvoiceService;
 
 @Service
 @Scope("singleton")
-public class CreateInvoicesConsumer {
+public class AuthorizeInvoiceConsumer {
 
-  Logger logger = LoggerFactory.getLogger(CreateInvoicesConsumer.class);
+  Logger logger = LoggerFactory.getLogger(AuthorizeInvoiceConsumer.class);
 
   @Autowired
   ApplicationContext context;
@@ -41,9 +41,8 @@ public class CreateInvoicesConsumer {
   public void start() {
     Consumer<ServiceBusReceivedMessageContext> processMessage = messageContext -> {
       try {
-        var payload = messageContext.getMessage().getBody().toString();
-        var event = JsonUtils.fromJsonToObject(payload, CreateInvoiceEvent.class);
-        service.createInvoices(event);
+        var event = parseEvent(messageContext);
+        service.authorizeInvoice(event);
         messageContext.complete();
       } catch (Exception ex) {
         logger.error("Error processing message", ex);
@@ -60,13 +59,18 @@ public class CreateInvoicesConsumer {
         .processor()
         .maxConcurrentCalls(config.getMaxConcurrentCalls())
         .prefetchCount(config.getPrefetchCount())
-        .queueName(EventQueues.CREATE_INVOICES_QUEUE)
+        .queueName(EventQueues.AUTHORIZE_INVOICE_QUEUE)
         .processMessage(processMessage)
         .processError(processError)
         .disableAutoComplete()
         .buildProcessorClient();
 
     processorClient.start();
+  }
+
+  protected Long parseEvent(ServiceBusReceivedMessageContext messageContext) {
+    var payload = messageContext.getMessage().getBody().toString();
+    return Long.parseLong(payload);
   }
 
   @PreDestroy

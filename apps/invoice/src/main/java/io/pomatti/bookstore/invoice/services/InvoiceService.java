@@ -1,6 +1,7 @@
 package io.pomatti.bookstore.invoice.services;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,14 @@ public class InvoiceService {
     sender.sendAuthorizeInvoiceEvent(event.getItems());
   }
 
-  // public void processInvoice(CreateInvoiceEvent event) {
-  // event.getItems().parallelStream().forEach(item -> {
-  // var invoice = new Invoice();
-  // populateInvoice(invoice);
-  // invoice.setOrderId(event.getOrderId());
-  // repository.save(invoice);
-  // });
-  // }
+  public void authorizeInvoice(Long id) {
+    final Optional<Invoice> invoice = repository.findById(id);
+    invoice.ifPresentOrElse(i -> {
+      i.setStatus(Status.AUTHORIZED);
+    }, () -> {
+      throw new InvoiceNotFoundException(id);
+    });
+  }
 
   protected void populateInvoice(Invoice invoice) {
     invoice.setExtraString1("abcdefghijk");

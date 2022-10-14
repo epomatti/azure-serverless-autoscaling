@@ -23,23 +23,20 @@ public class InvoiceSender {
 
   private ServiceBusSender sender;
 
-  private final static String AUTHORIZE_INVOICES_QUEUE = "authorize-invoices";
-  private final static String INVOICE_READY_QUEUE = "create-invoices";
-
   public void start() {
     this.sender = new ServiceBusSender(config.getConnectionString());
-    sender.addAndInitSenderAsync(AUTHORIZE_INVOICES_QUEUE);
-    sender.addAndInitSenderAsync(INVOICE_READY_QUEUE);
+    sender.addAndInitSenderAsync(EventQueues.AUTHORIZE_INVOICE_QUEUE);
+    sender.addAndInitSenderAsync(EventQueues.INVOICE_READY_QUEUE);
   }
 
   public void sendInvoicesReadyEvent(Long orderId) {
-    sender.send(INVOICE_READY_QUEUE, Long.toString(orderId));
+    sender.send(EventQueues.INVOICE_READY_QUEUE, Long.toString(orderId));
   }
 
   public void sendAuthorizeInvoiceEvent(List<Long> invoicesIds) {
     List<String> strings = invoicesIds.stream().map(Object::toString)
         .collect(Collectors.toUnmodifiableList());
-    sender.sendBatch(AUTHORIZE_INVOICES_QUEUE, strings);
+    sender.sendBatch(EventQueues.AUTHORIZE_INVOICE_QUEUE, strings);
   }
 
   public void close() {
