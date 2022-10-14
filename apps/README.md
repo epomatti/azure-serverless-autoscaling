@@ -53,3 +53,14 @@ export AZURE_SERVICEBUS_CONNECTION_STRING="Endpoint=sb://{NAMESPACE}.servicebus.
 
 https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-prefetch?tabs=java
 https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/servicebus/azure-messaging-servicebus/docs/SyncReceiveAndPrefetch.md
+
+## Test
+
+### Create Invoices Test
+
+```json
+{
+  "orderId": 1,
+  "items": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
+}
+```

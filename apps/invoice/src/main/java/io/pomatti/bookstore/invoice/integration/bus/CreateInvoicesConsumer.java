@@ -46,6 +46,7 @@ public class CreateInvoicesConsumer {
         service.createInvoices(event);
         messageContext.complete();
       } catch (Exception ex) {
+        logger.error("Error processing message", ex);
         messageContext.abandon();
       }
     };
