@@ -23,9 +23,9 @@ import io.pomatti.bookstore.invoice.services.InvoiceService;
 
 @Service
 @Scope("singleton")
-public class InvoiceConsumer {
+public class CreateInvoicesConsumer {
 
-  Logger logger = LoggerFactory.getLogger(InvoiceConsumer.class);
+  Logger logger = LoggerFactory.getLogger(CreateInvoicesConsumer.class);
 
   @Autowired
   ApplicationContext context;

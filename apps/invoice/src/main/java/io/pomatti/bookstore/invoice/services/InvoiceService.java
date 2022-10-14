@@ -22,18 +22,19 @@ public class InvoiceService {
       var invoice = new Invoice();
       populateInvoice(invoice);
       invoice.setOrderId(event.getOrderId());
+      invoice.setRegistryNumber(item);
       repository.save(invoice);
     });
     sender.sendAuthorizeInvoiceEvent(event.getItems());
   }
 
   // public void processInvoice(CreateInvoiceEvent event) {
-  //   event.getItems().parallelStream().forEach(item -> {
-  //     var invoice = new Invoice();
-  //     populateInvoice(invoice);
-  //     invoice.setOrderId(event.getOrderId());
-  //     repository.save(invoice);
-  //   });
+  // event.getItems().parallelStream().forEach(item -> {
+  // var invoice = new Invoice();
+  // populateInvoice(invoice);
+  // invoice.setOrderId(event.getOrderId());
+  // repository.save(invoice);
+  // });
   // }
 
   protected void populateInvoice(Invoice invoice) {

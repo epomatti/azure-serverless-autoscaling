@@ -20,6 +20,7 @@ public class Invoice {
   private Long id;
 
   private Long orderId;
+  private Long registryNumber;
 
   @Enumerated(EnumType.ORDINAL)
   private Status status = Status.PENDING;
