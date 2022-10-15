@@ -50,7 +50,7 @@ export AZURE_SERVICEBUS_CONNECTION_STRING=$(az servicebus namespace authorizatio
 export AZURE_SERVICEBUS_CONNECTION_STRING="Endpoint=sb://{NAMESPACE}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={SHARED_ACCESS_KEY}"
 ```
 
-
+https://learn.microsoft.com/en-us/rest/api/servicebus/get-azure-active-directory-token
 https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-prefetch?tabs=java
 https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/servicebus/azure-messaging-servicebus/docs/SyncReceiveAndPrefetch.md
 
