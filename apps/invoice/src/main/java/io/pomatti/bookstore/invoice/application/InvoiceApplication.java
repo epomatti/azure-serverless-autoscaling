@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import io.pomatti.bookstore.invoice.integration.bus.AuthorizeInvoiceConsumer;
 import io.pomatti.bookstore.invoice.integration.bus.CreateInvoicesConsumer;
 import io.pomatti.bookstore.invoice.integration.bus.InvoiceSender;
 
@@ -23,7 +24,10 @@ public class InvoiceApplication {
 	Logger logger = LoggerFactory.getLogger(InvoiceApplication.class);
 
 	@Autowired
-	CreateInvoicesConsumer consumer;
+	CreateInvoicesConsumer createInvoicesConsumer;
+
+	@Autowired
+	AuthorizeInvoiceConsumer authorizeInvoiceConsumer;
 
 	@Autowired
 	InvoiceSender sender;
@@ -33,8 +37,13 @@ public class InvoiceApplication {
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
-	public void startConsumer() {
-		consumer.start();
+	public void startCreateInvoicesConsumer() {
+		createInvoicesConsumer.start();
+	}
+
+	@EventListener(ApplicationReadyEvent.class)
+	public void startAuthorizeInvoiceConsumer() {
+		authorizeInvoiceConsumer.start();
 	}
 
 	@EventListener(ApplicationReadyEvent.class)

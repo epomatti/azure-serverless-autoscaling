@@ -39,9 +39,9 @@ https://azuresdkdocs.blob.core.windows.net/$web/java/azure-messaging-servicebus/
 ```sh
 az group create -n "rg-dev" -l "eastus2"
 az servicebus namespace create -n "bus-serverless-bookstore-dev" -g "rg-dev" -l "eastus2"
-az servicebus queue create -n 'create-invoices' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --enable-partitioning
-az servicebus queue create -n 'authorize-invoices' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --enable-partitioning
-az servicebus queue create -n 'invoices-ready' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --enable-partitioning
+az servicebus queue create -n 'invoice-create' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --enable-partitioning
+az servicebus queue create -n 'invoice-authorize' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --enable-partitioning
+az servicebus queue create -n 'invoice-authorized' --namespace-name "bus-serverless-bookstore-dev" -g "rg-dev" --enable-partitioning
 
 export AZURE_SERVICEBUS_CONNECTION_STRING=$(az servicebus namespace authorization-rule keys list -g "rg-dev" --namespace-name "bus-serverless-bookstore-dev" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv)
 ```
