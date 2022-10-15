@@ -33,6 +33,7 @@ public class InvoiceService {
     final Optional<Invoice> invoice = repository.findById(id);
     invoice.ifPresentOrElse(i -> {
       i.setStatus(Status.AUTHORIZED);
+      repository.save(i);
     }, () -> {
       throw new InvoiceNotFoundException(id);
     });
