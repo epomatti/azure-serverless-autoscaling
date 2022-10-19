@@ -99,7 +99,7 @@ azurite -s -l /tmp/azurite
 
 ```sh
 az group create --name "rg-local-dev" --location "eastus2"
-az deployment group create --resource-group "rg-local-dev" --template-file dev/dev.bicep
+az deployment group create --resource-group "rg-local-dev" --template-file dev.bicep
 ```
 
 

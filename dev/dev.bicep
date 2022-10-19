@@ -31,6 +31,12 @@ resource serviceBusQueueInvoiceAuthorized 'Microsoft.ServiceBus/namespaces/queue
   properties: properties
 }
 
+resource serviceBusQueueOrderDelivery 'Microsoft.ServiceBus/namespaces/queues@2022-01-01-preview' = {
+  parent: serviceBusNamespace
+  name: 'order-delivery'
+  properties: properties
+}
+
 // Shared
 
 var properties = {
