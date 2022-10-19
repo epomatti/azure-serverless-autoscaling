@@ -101,3 +101,15 @@ azurite -s -l /tmp/azurite
 az group create --name "rg-local-dev" --location "eastus2"
 az deployment group create --resource-group "rg-local-dev" --template-file dev/dev.bicep
 ```
+
+
+```json
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "AzureWebJobsServiceBus": "{REPLACE WITH CONNECTION STRING}"
+    }
+}
+```

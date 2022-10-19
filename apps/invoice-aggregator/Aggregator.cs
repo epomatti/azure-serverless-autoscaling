@@ -1,21 +1,24 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace invoice_aggregator
 {
   public class Aggregator
   {
-    [FunctionName("Invoice_Client")]
+    [FunctionName("InvoiceClient")]
     public void Run([ServiceBusTrigger("invoice-authorized")] string message, [DurableClient] IDurableEntityClient client, ILogger log)
     {
-      log.LogInformation($"C# ServiceBus queue trigger function processed message: {message}");
       var entityId = new EntityId(nameof(InvoiceEntity), message);
       client.SignalEntityAsync(entityId, "Add", 1);
     }
 
-    [FunctionName("Invoice_Entity")]
-    public static void InvoiceEntity([EntityTrigger] IDurableEntityContext ctx)
+    [FunctionName("InvoiceEntity")]
+    public static void InvoiceEntity([EntityTrigger] IDurableEntityContext ctx, ILogger log)
     {
       switch (ctx.OperationName.ToLowerInvariant())
       {
@@ -29,6 +32,18 @@ namespace invoice_aggregator
           ctx.Return(ctx.GetState<int>());
           break;
       }
+    }
+
+    [FunctionName("GetInvoice")]
+    public static async Task<IActionResult> GetInvoice(
+      [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "InvoiceEntity/{entityKey}")] HttpRequest req,
+      [DurableClient] IDurableEntityClient client,
+      string entityKey,
+      ILogger log)
+    {
+      var entityId = new EntityId(nameof(InvoiceEntity), entityKey);
+      var state = await client.ReadEntityStateAsync<int>(entityId);
+      return (ActionResult)new OkObjectResult(state);
     }
   }
 }
